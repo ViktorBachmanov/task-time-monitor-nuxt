@@ -9,7 +9,9 @@ export default defineEventHandler(async (event) => {
     password: runtimeConfig.databasePassword,
     database: runtimeConfig.database,
   });
-  await connection.execute("INSERT INTO `task` (id) VALUES (1)");
+  await connection.execute(
+    "INSERT INTO `task` (id, name) VALUES (1, 'Task-1')"
+  );
   const [rows, fields] = await connection.execute("SELECT * FROM `task`");
   return {
     api: "works!",
