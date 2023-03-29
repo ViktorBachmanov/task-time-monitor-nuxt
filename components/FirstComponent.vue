@@ -3,6 +3,13 @@ useHead({
   title: 'Task-Time-Monitor',
   script: [ { src: '/ts/theme.ts' } ]
 })
+
+
+const { data } = await useFetch('/api/hello')
+
+const tasks = useState<any>('tasks', () => data.value?.rows)
+
+
 </script>
 
 
