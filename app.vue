@@ -9,7 +9,9 @@ function testApi() {
 
 <template>
   <div>
-    <button @click="testApi">Test API</button>
-    <NuxtWelcome />
+    <!-- <button @click="testApi">Test API</button>
+    <NuxtWelcome /> -->
+
+    <FirstComponent />
   </div>
 </template>
