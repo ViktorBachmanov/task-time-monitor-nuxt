@@ -12,4 +12,15 @@ export default defineNuxtConfig({
       // apiBase: '/api'
     },
   },
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData:
+            '@use "@/assets/_reset.scss" as *; @use "@/assets/_colors.scss" as *;',
+        },
+      },
+    },
+  },
 });

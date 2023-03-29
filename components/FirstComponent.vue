@@ -7,5 +7,22 @@ useHead({
 
 
 <template>
-  <h2>First component</h2>
+  <div id="first_component">
+  First component
+</div>
 </template>
+
+
+<style lang="scss" scoped>
+#first_component {
+  margin: 10em;
+
+  .dark & {
+    background-color: $bg-dark-0;
+    color: silver;
+  }
+}
+
+
+</style>
+
