@@ -10,9 +10,9 @@ export default defineEventHandler(async (event) => {
     database: runtimeConfig.database,
   });
   await connection.execute(
-    "INSERT INTO `task` (id, name) VALUES (1, 'Task-1')"
+    "INSERT INTO `tasks` (id, name) VALUES (1, 'Task-1')"
   );
-  const [rows, fields] = await connection.execute("SELECT * FROM `task`");
+  const [rows, fields] = await connection.execute("SELECT * FROM `tasks`");
   return {
     api: "works!",
     rows,
