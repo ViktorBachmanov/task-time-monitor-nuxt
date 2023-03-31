@@ -5,7 +5,9 @@ const { data } = await useFetch('/api/tasks')
 const tasks = data.value?.rows;
 
 // const tasks = useState<any>('tasks', () => data.value?.rows)
-// const tasks = useState<any>('tasks', () => data?.rows)
+
+const currentTaskIndex = useState('currentTaskIndex', () => 0)
+
 </script>
 
 

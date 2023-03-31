@@ -16,6 +16,9 @@ useHead({
     <Suspense>
       <TheTask />
     </Suspense>
+
+    <ThePlayer />
+
   </div>
 </template>
 

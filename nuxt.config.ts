@@ -23,4 +23,6 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  components: ["~/components/icons", "~/components"],
 });
