@@ -1,10 +1,9 @@
 <script setup>
-function testApi() {
-  fetch('/api/hello')
-    .then(res => {
-      console.log('Response has arrived')
-    })
-}
+useHead({
+  title: 'Task-Time-Monitor',
+  script: [ { src: '/ts/theme.ts' } ]
+})
+
 </script>
 
 <template>
@@ -12,7 +11,11 @@ function testApi() {
     <!-- <button @click="testApi">Test API</button>
     <NuxtWelcome /> -->
 
-    <FirstComponent />
+    <!-- <FirstComponent /> -->
+
+    <Suspense>
+      <TheTask />
+    </Suspense>
   </div>
 </template>
 
