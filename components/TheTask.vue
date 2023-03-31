@@ -6,7 +6,7 @@ const tasks = data.value?.rows;
 
 // const tasks = useState<any>('tasks', () => data.value?.rows)
 
-const currentTaskIndex = useState('currentTaskIndex', () => 0)
+const currentTaskId = useState('currentTaskId', () => tasks[0].id)
 
 </script>
 
