@@ -1,8 +1,8 @@
-<script lang="ts" setup>
-// const { data } = await useFetch('/api/tasks')
-const response = await fetch('http://localhost:3000/api/tasks');
-const data = await response.json();
-const tasks = data.rows;
+<script setup>
+const { data } = await useFetch('/api/tasks')
+// const response = await fetch('http://localhost:3000/api/tasks');
+// const data = await response.json();
+const tasks = data.value?.rows;
 
 // const tasks = useState<any>('tasks', () => data.value?.rows)
 // const tasks = useState<any>('tasks', () => data?.rows)
