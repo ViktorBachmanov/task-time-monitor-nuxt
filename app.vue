@@ -1,7 +1,7 @@
 <script setup>
 useHead({
   title: 'Task-Time-Monitor',
-  script: [ { src: '/ts/theme.ts' } ]
+  script: [ { src: '/js/theme.js' } ]
 })
 
 </script>
