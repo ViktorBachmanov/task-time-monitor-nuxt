@@ -1,6 +1,8 @@
 <script setup>
 const currentTaskId = useState('currentTaskId')
 
+const createdAt = ref(null)
+
 async function createSession(params) {
   const { data } = await useFetch('/api/sessions', {
     method: 'POST',
@@ -8,6 +10,9 @@ async function createSession(params) {
       currentTaskId: currentTaskId.value,
     },
   })  
+
+  const date = new Date(data.value.session.created_at)
+  createdAt.value = date.toLocaleTimeString()
 }
 </script>
 
@@ -17,6 +22,10 @@ async function createSession(params) {
     <button @click="createSession">
       <IconPlayButton />
     </button>
+
+    <pre>
+      {{ createdAt }}
+    </pre>
   </div>
 </template>
 

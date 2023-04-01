@@ -13,12 +13,18 @@ export default defineEventHandler(async (event) => {
     database: runtimeConfig.database,
   });
 
-  await connection.execute("INSERT INTO `sessions` (task_id) VALUES (?)", [
-    currentTaskId,
-  ]);
+  const [result] = await connection.execute(
+    "INSERT INTO `sessions` (task_id) VALUES (?)",
+    [currentTaskId]
+  );
 
-  const [rows, fields] = await connection.execute("SELECT * FROM `sessions`");
+  const [rows] = await connection.execute(
+    "SELECT * FROM `sessions` WHERE id = ?",
+    [result.insertId]
+  );
+
   return {
-    rows,
+    result,
+    session: rows[0],
   };
 });
