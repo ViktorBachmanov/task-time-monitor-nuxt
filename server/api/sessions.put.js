@@ -2,7 +2,7 @@ import * as mysql from "mysql2/promise";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const currentTaskId = body.currentTaskId;
+  const currentSessionId = body.currentSessionId;
 
   const runtimeConfig = useRuntimeConfig();
 
@@ -14,17 +14,9 @@ export default defineEventHandler(async (event) => {
   });
 
   const [result] = await connection.execute(
-    "INSERT INTO `sessions` (task_id) VALUES (?)",
-    [currentTaskId]
+    "UPDATE sessions SET closed_at = CURRENT_TIMESTAMP() WHERE id = ?",
+    [currentSessionId]
   );
 
-  const [rows] = await connection.execute(
-    "SELECT * FROM `sessions` WHERE id = ?",
-    [result.insertId]
-  );
-
-  return {
-    // result,
-    session: rows[0],
-  };
+  return result;
 });

@@ -19,8 +19,10 @@ useHead({
 
     <ThePlayer />
 
-    <TheSession />
-
+    <Suspense>
+      <TheSession />
+    </Suspense>
+    
   </div>
 </template>
 

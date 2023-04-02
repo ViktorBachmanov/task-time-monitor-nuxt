@@ -1,5 +1,6 @@
 <script setup>
 const currentTaskId = useState('currentTaskId')
+const currentSessionId = useState('currentSessionId')
 
 const createdAt = ref(null)
 
@@ -17,6 +18,7 @@ async function createSession(params) {
 
   const date = new Date(data.value.session.created_at)
   createdAt.value = date.toLocaleTimeString()
+  currentSessionId.value = data.value.session.id;
 
   intervalId = setInterval(() => {
     timer.value = new Date((Date.now() - date - 3 * 60 * 60 * 1000)).toLocaleTimeString()
@@ -25,6 +27,13 @@ async function createSession(params) {
 
 
 async function closeSession(params) {
+  await useFetch('/api/sessions', {
+    method: 'PUT',
+    body: {
+      currentSessionId: currentSessionId.value,
+    },
+  })  
+
   clearInterval(intervalId)
 }
 
@@ -62,9 +71,13 @@ async function closeSession(params) {
 </template>
 
 
-<style scoped>
+<style lang="scss" scoped>
 #player {
   margin: 3em;
+
+  button {
+    margin: 0.5em;
+  }
 }
 </style>
 
