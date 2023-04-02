@@ -36,6 +36,16 @@ async function handleAddTask() {
     @click="handleAddTask"
   />
 
+  <select v-model="currentTaskId">
+    <option 
+      v-for="task in tasks" 
+      :key="task.id"
+      :value="task.id"
+    >
+      {{ task.name }}
+    </option>
+  </select>
+
   <ul>
     <li
       v-for="task in tasks"

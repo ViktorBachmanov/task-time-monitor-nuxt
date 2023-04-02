@@ -26,7 +26,9 @@ export default defineEventHandler(async (event) => {
   );
 
   const [rows] = await connection.execute(
-    "SELECT * FROM `sessions` WHERE id = ?",
+    // "SELECT * FROM `sessions` WHERE id = ?",
+    `SELECT sessions.id AS id, created_at, closed_at, duration, tasks.name AS task_name 
+      FROM sessions, tasks WHERE task_id = tasks.id AND sessions.id = ?`,
     [currentSessionId]
   );
 
