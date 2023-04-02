@@ -1,6 +1,8 @@
 <script setup>
 const currentTaskId = useState('currentTaskId')
 const currentSessionId = useState('currentSessionId')
+const sessions = useState('sessions')
+
 
 const createdAt = ref(null)
 
@@ -27,12 +29,14 @@ async function createSession(params) {
 
 
 async function closeSession(params) {
-  await useFetch('/api/sessions', {
+  const { data } = await useFetch('/api/sessions', {
     method: 'PUT',
     body: {
       currentSessionId: currentSessionId.value,
     },
   })  
+
+  sessions.value.unshift(data.value.session)
 
   clearInterval(intervalId)
 }

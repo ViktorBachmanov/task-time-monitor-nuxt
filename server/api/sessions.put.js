@@ -13,10 +13,24 @@ export default defineEventHandler(async (event) => {
     database: runtimeConfig.database,
   });
 
-  const [result] = await connection.execute(
-    "UPDATE sessions SET closed_at = CURRENT_TIMESTAMP() WHERE id = ?",
+  const [currentSession] = await connection.execute(
+    "SELECT created_at FROM sessions WHERE id = ?",
     [currentSessionId]
   );
 
-  return result;
+  // console.log()
+
+  const [result] = await connection.execute(
+    "UPDATE sessions SET closed_at = CURRENT_TIMESTAMP(), duration = NOW() - ? WHERE id = ?",
+    [currentSession[0].created_at, currentSessionId]
+  );
+
+  const [rows] = await connection.execute(
+    "SELECT * FROM `sessions` WHERE id = ?",
+    [currentSessionId]
+  );
+
+  return {
+    session: rows[0],
+  };
 });
