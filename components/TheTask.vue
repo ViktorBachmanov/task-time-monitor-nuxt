@@ -2,12 +2,26 @@
 const { data } = await useFetch('/api/tasks')
 // const response = await fetch('http://localhost:3000/api/tasks');
 // const data = await response.json();
-const tasks = data.value?.rows;
+
+const tasks = ref(data.value?.rows);
+// const tasks = useState('tasks', () => data.value?.rows);
 
 // const tasks = useState<any>('tasks', () => data.value?.rows)
 
-const currentTaskId = useState('currentTaskId', () => tasks[0].id)
+const currentTaskId = useState('currentTaskId', () => 1)
 
+const newTaskName = ref(null)
+
+async function handleAddTask() {
+  const { data } = await useFetch('/api/tasks', {
+    method: 'POST',
+    body: {
+      newTaskName: newTaskName.value,
+    },
+  })  
+
+  tasks.value.push(data.value.createdTask)
+}
 </script>
 
 
@@ -15,6 +29,12 @@ const currentTaskId = useState('currentTaskId', () => tasks[0].id)
   <div>
     Задачи
   </div>
+
+  <input v-model="newTaskName">
+
+  <IconPlusButton 
+    @click="handleAddTask"
+  />
 
   <ul>
     <li
