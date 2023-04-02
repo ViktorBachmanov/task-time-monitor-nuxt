@@ -19,6 +19,8 @@ useHead({
 
     <ThePlayer />
 
+    <TheSession />
+
   </div>
 </template>
 
