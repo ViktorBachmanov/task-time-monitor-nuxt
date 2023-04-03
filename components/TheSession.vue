@@ -16,6 +16,23 @@ onUnmounted(() => {
 const totalSeconds = data.value.rows.reduce((total, session) => {
   return total + session.seconds
 }, 0)
+
+const compact = computed(() => {
+  const obj = {};
+  data.value.rows.forEach((session) => {
+    if(!(session.task_id in obj)) {
+      obj[session.task_id] = {
+        name: session.task_name,
+        seconds: session.seconds
+      }
+    }
+    else {
+      obj[session.task_id].seconds += session.seconds
+    }
+  })
+
+  return obj
+})
 </script>
 
 
@@ -37,4 +54,8 @@ const totalSeconds = data.value.rows.reduce((total, session) => {
   </ul>
 
   Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }}
+
+  <pre>
+    {{ compact }}
+  </pre>
 </template>
