@@ -1,12 +1,7 @@
 <script setup>
-const { data } = await useFetch('/api/tasks')
-// const response = await fetch('http://localhost:3000/api/tasks');
-// const data = await response.json();
+const { data, refresh } = await useFetch('/api/tasks')
 
-const tasks = ref(data.value?.rows);
-// const tasks = useState('tasks', () => data.value?.rows);
-
-// const tasks = useState<any>('tasks', () => data.value?.rows)
+// const tasks = ref(data.value?.rows);
 
 const currentTaskId = useState('currentTaskId', () => 1)
 
@@ -20,7 +15,8 @@ async function handleAddTask() {
     },
   })  
 
-  tasks.value.push(data.value.createdTask)
+  // tasks.value.push(data.value.createdTask)
+  refresh();
 }
 </script>
 
@@ -38,7 +34,7 @@ async function handleAddTask() {
 
   <select v-model="currentTaskId">
     <option 
-      v-for="task in tasks" 
+      v-for="task in data.rows" 
       :key="task.id"
       :value="task.id"
     >
@@ -48,7 +44,7 @@ async function handleAddTask() {
 
   <ul>
     <li
-      v-for="task in tasks"
+      v-for="task in data.rows"
       :key="task.id"
     >
       {{ task.name }}
