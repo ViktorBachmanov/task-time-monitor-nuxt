@@ -3,7 +3,10 @@ const { data } = await useFetch('/api/sessions')
 
 const sessions = useState('sessions', () => data.value?.rows)
 
-const currentSessionId = useState('currentSessionId', () => null)
+// const currentSessionId = useState('currentSessionId', () => null)
+const totalSeconds = sessions.value.reduce((total, session) => {
+  return total + session.seconds
+}, 0)
 </script>
 
 
@@ -23,4 +26,6 @@ const currentSessionId = useState('currentSessionId', () => null)
        {{ session.task_name }}
     </li>
   </ul>
+
+  Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }}
 </template>
