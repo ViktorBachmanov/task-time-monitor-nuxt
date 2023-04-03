@@ -1,7 +1,8 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+
 const currentTaskId = useState('currentTaskId')
 const currentSessionId = useState('currentSessionId')
-const sessions = useState('sessions')
 
 
 const createdAt = ref(null)
@@ -27,6 +28,12 @@ async function createSession(params) {
   }, 1000)
 }
 
+let refresh;
+onMounted(() => {
+  refresh = () => window.dispatchEvent(new CustomEvent('refreshSessions'))
+})
+
+const elem = ref(null)
 
 async function closeSession(params) {
   const { data } = await useFetch('/api/sessions', {
@@ -36,7 +43,10 @@ async function closeSession(params) {
     },
   })  
 
-  sessions.value.unshift(data.value.session)
+  // sessions.value.unshift(data.value.session)
+
+
+  refresh()
 
   clearInterval(intervalId)
 }
@@ -59,7 +69,7 @@ async function closeSession(params) {
 
 
 <template>
-  <div id="player">
+  <div id="player" ref="elem">
     <button @click="createSession">
       <IconPlayButton />
     </button>
