@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
 
 const { data, refresh } = await useFetch('/api/sessions')
 
@@ -13,9 +12,9 @@ onUnmounted(() => {
 // const sessions = useState('sessions', () => data.value?.rows)
 
 // const currentSessionId = useState('currentSessionId', () => null)
-const totalSeconds = data.value.rows.reduce((total, session) => {
+const totalSeconds = computed(() => data.value.rows.reduce((total, session) => {
   return total + session.seconds
-}, 0)
+}, 0))
 
 const compact = computed(() => {
   const obj = {};
