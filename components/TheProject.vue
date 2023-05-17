@@ -1,0 +1,26 @@
+<script setup>
+const { data, refresh } = await useFetch('/api/projects')
+
+const currentProjectId = useState('currentProjectId', () => 1)
+
+</script>
+
+
+<template>
+  <div>
+    Проекты
+  </div>
+
+  <IconPlusButton />
+
+  <select v-model="currentProjectId">
+    <option 
+      v-for="project in data.rows" 
+      :key="project.id"
+      :value="project.id"
+    >
+      {{ project.name }}
+    </option>
+  </select>
+
+</template>

@@ -42,12 +42,5 @@ async function handleAddTask() {
     </option>
   </select>
 
-  <ul>
-    <li
-      v-for="task in data.rows"
-      :key="task.id"
-    >
-      {{ task.name }}
-    </li>
-  </ul>
+ 
 </template>

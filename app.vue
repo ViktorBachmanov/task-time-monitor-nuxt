@@ -14,6 +14,10 @@ useHead({
     <!-- <FirstComponent /> -->
 
     <Suspense>
+      <TheProject />
+    </Suspense>
+
+    <Suspense>
       <TheTask />
     </Suspense>
 
