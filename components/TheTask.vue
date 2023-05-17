@@ -1,7 +1,18 @@
 <script setup>
-const { data, refresh } = await useFetch('/api/tasks')
+const props = defineProps({
+  projectId: Number
+})
 
-// const tasks = ref(data.value?.rows);
+// const fetchResult = computed(async () => {
+//   return await useFetch(`/api/tasks?project-id=${props.projectId}`)
+// })
+
+const { data, refresh } = await useFetch(() => `/api/tasks?project-id=${props.projectId}`)
+
+watch(() => props.projectId, () => {
+  // console.log('project id changed')
+  refresh();
+})
 
 const currentTaskId = useState('currentTaskId', () => 1)
 
@@ -15,7 +26,6 @@ async function handleAddTask() {
     },
   })  
 
-  // tasks.value.push(data.value.createdTask)
   refresh();
 }
 </script>

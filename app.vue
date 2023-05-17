@@ -17,10 +17,6 @@ useHead({
       <TheProject />
     </Suspense>
 
-    <Suspense>
-      <TheTask />
-    </Suspense>
-
     <ThePlayer />
 
     <Suspense>

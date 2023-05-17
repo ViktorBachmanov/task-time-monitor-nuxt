@@ -23,4 +23,10 @@ const currentProjectId = useState('currentProjectId', () => 1)
     </option>
   </select>
 
+  <Suspense>
+    <TheTask 
+      :projectId="currentProjectId"
+    />
+  </Suspense>
+
 </template>
