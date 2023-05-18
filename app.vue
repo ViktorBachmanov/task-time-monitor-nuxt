@@ -32,13 +32,15 @@ useHead({
 .app {
   min-width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
+  padding: 2em;
   .dark & {
     background-color: $bg-dark-0;
     color: silver;
   }
 }
+
 </style>
 
 
@@ -46,5 +48,10 @@ useHead({
 * {
   margin: 0;
   padding: 0;
+}
+
+.dark select, .dark input {
+  background-color: $bg-dark-1;
+  color: white;
 }
 </style>

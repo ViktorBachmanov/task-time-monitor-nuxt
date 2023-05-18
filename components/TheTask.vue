@@ -9,9 +9,11 @@ const props = defineProps({
 
 const { data, refresh } = await useFetch(() => `/api/tasks?project-id=${props.projectId}`)
 
-watch(() => props.projectId, () => {
+watch(() => props.projectId, async () => {
   // console.log('project id changed')
-  refresh();
+  await refresh();
+
+  currentTaskId.value = data.value.rows[0].id;
 })
 
 const currentTaskId = useState('currentTaskId', () => 1)
