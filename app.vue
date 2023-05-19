@@ -50,6 +50,13 @@ useHead({
   padding: 0;
 }
 
+select {
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
 .dark select, .dark input {
   background-color: $bg-dark-1;
   color: white;

@@ -18,6 +18,9 @@ watch(() => props.projectId, async () => {
 
 const currentTaskId = useState('currentTaskId', () => 1)
 
+const playing = useState('playing')
+
+
 const newTaskName = ref(null)
 
 async function handleAddTask() {
@@ -44,7 +47,10 @@ async function handleAddTask() {
     @click="handleAddTask"
   />
 
-  <select v-model="currentTaskId">
+  <select 
+    v-model="currentTaskId"
+    :class="{ disabled: playing }"
+  >
     <option 
       v-for="task in data.rows" 
       :key="task.id"

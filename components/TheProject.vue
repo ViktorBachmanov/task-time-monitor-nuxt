@@ -3,6 +3,9 @@ const { data, refresh } = await useFetch('/api/projects')
 
 const currentProjectId = useState('currentProjectId', () => 1)
 
+const playing = useState('playing')
+
+
 </script>
 
 
@@ -13,7 +16,10 @@ const currentProjectId = useState('currentProjectId', () => 1)
 
   <IconPlusButton />
 
-  <select v-model="currentProjectId">
+  <select 
+    v-model="currentProjectId"
+    :class="{ disabled: playing }"
+  >
     <option 
       v-for="project in data.rows" 
       :key="project.id"

@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+const playing = useState('playing', () => false)
+
 const currentTaskId = useState('currentTaskId')
 const currentSessionId = useState('currentSessionId')
 
@@ -12,6 +14,8 @@ const timer = ref(0)
 let intervalId
 
 async function createSession(params) {
+  playing.value = true;
+
   const { data } = await useFetch('/api/sessions', {
     method: 'POST',
     body: {
@@ -36,6 +40,8 @@ onMounted(() => {
 const elem = ref(null)
 
 async function closeSession(params) {
+  playing.value = false;
+
   const { data } = await useFetch('/api/sessions', {
     method: 'PUT',
     body: {
@@ -70,11 +76,17 @@ async function closeSession(params) {
 
 <template>
   <div id="player" ref="elem">
-    <button @click="createSession">
+    <button 
+      @click="createSession"
+      :class="{ disabled: playing }"
+    >
       <IconPlayButton />
     </button>
 
-    <button @click="closeSession">
+    <button 
+      @click="closeSession"
+      :class="{ disabled: !playing }"
+    >
       <IconStopButton />
     </button>
 
@@ -91,6 +103,11 @@ async function closeSession(params) {
 
   button {
     margin: 0.5em;
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
   }
 }
 </style>
