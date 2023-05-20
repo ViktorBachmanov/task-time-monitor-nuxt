@@ -1,97 +1,66 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
+
+
+const props = defineProps({
+  currentSessionId: Number
+})
 
 const playing = useState('playing', () => false)
 
-const currentTaskId = useState('currentTaskId')
-const currentSessionId = useState('currentSessionId')
-
-
-const createdAt = ref(null)
 
 const timer = ref(0)
 
-let intervalId
+const emit = defineEmits(['play', 'update', 'stop'])
 
-async function createSession(params) {
+
+function play() {
   playing.value = true;
 
-  const { data } = await useFetch('/api/sessions', {
-    method: 'POST',
-    body: {
-      currentTaskId: currentTaskId.value,
-    },
-  })  
-
-  const date = new Date(data.value.session.created_at)
-  createdAt.value = date.toLocaleTimeString()
-  currentSessionId.value = data.value.session.id;
-
-  intervalId = setInterval(() => {
-    timer.value = new Date((Date.now() - date - 3 * 60 * 60 * 1000)).toLocaleTimeString()
-  }, 1000)
+  emit('play')
 }
 
-let refresh;
-onMounted(() => {
-  refresh = () => window.dispatchEvent(new CustomEvent('refreshSessions'))
+let intervalId
+
+watch(() => props.currentSessionId, () => {
+  const startDate = Date.now() + 3 * 60 * 60 * 1000
+  intervalId = setInterval(() => {
+    timer.value = new Date(Date.now() - startDate).toLocaleTimeString()
+  }, 1000)
 })
+
 
 const elem = ref(null)
 
-async function closeSession(params) {
+async function stop() {
   playing.value = false;
 
-  const { data } = await useFetch('/api/sessions', {
-    method: 'PUT',
-    body: {
-      currentSessionId: currentSessionId.value,
-    },
-  })  
-
-  // sessions.value.unshift(data.value.session)
-
-
-  refresh()
+  emit('stop')
 
   clearInterval(intervalId)
 }
 
-
-// const usePlayerState = () => useState("playerState", () => 0);
-
-// function setPlayerState(value) {
-//   // 0 | 1
-//   switch (value) {
-//     case 0: // close session
-//       break;
-
-//     case 1: // create session
-//       break;
-//   }
-//   usePlayerState.value = value;
-// }
 </script>
 
 
 <template>
   <div id="player" ref="elem">
     <button 
-      @click="createSession"
+      @click="play"
       :class="{ disabled: playing }"
     >
       <IconPlayButton />
     </button>
 
     <button 
-      @click="closeSession"
+      @click="stop"
       :class="{ disabled: !playing }"
     >
       <IconStopButton />
     </button>
 
     <pre>
-      {{ createdAt }} - ... = {{ timer }}
+      {{ timer }}
     </pre>
   </div>
 </template>
