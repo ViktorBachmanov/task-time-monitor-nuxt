@@ -30,7 +30,7 @@ const playing = useState('playing')
   </select>
 
   <Suspense>
-    <TheTask 
+    <TheTasks 
       :projectId="currentProjectId"
     />
   </Suspense>

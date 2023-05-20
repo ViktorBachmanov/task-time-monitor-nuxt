@@ -14,13 +14,13 @@ useHead({
     <!-- <FirstComponent /> -->
 
     <Suspense>
-      <TheProject />
+      <TheProjects />
     </Suspense>
 
     <ThePlayer />
 
     <Suspense>
-      <TheSession />
+      <TheSessions />
     </Suspense>
     
   </div>
