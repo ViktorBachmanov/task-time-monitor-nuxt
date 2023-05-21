@@ -23,9 +23,20 @@ function play() {
 let intervalId
 
 watch(() => props.currentSessionId, () => {
-  const startDate = Date.now() + 3 * 60 * 60 * 1000
+  console.log('Start interval')
+
+  const startDate = Date.now()
+
+  let count = 0
+
   intervalId = setInterval(() => {
-    timer.value = new Date(Date.now() - startDate).toLocaleTimeString()
+    const time = Date.now() - startDate
+
+    timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
+
+    if(++count % 60 === 0) {
+      emit('update')
+    }
   }, 1000)
 })
 

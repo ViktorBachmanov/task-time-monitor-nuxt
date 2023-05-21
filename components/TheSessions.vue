@@ -45,8 +45,8 @@ function formatTime(session) {
   switch(representation.value) {
     case 'common':
       return `${new Date(session.created_at).toLocaleTimeString()} - 
-        ${new Date(session.closed_at).toLocaleTimeString()} = 
-        ${new Date(new Date(session.closed_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString()}`
+        ${new Date(session.updated_at).toLocaleTimeString()} = 
+        ${new Date(new Date(session.updated_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString()}`
     case 'compact':
       return new Date(session.seconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString()
   }
@@ -123,8 +123,8 @@ async function updateSession() {
       :key="session.id"
     >
       {{ new Date(session.created_at).toLocaleTimeString() }} - 
-      {{ new Date(session.closed_at).toLocaleTimeString() }} =
-      {{ new Date(new Date(session.closed_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString() }} |
+      {{ new Date(session.updated_at).toLocaleTimeString() }} =
+      {{ new Date(new Date(session.updated_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString() }} |
        {{ session.task_name }}
     </li>
   </ul> -->
