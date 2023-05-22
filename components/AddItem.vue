@@ -1,11 +1,28 @@
 <script setup>
 import { ref } from 'vue'
 
-defineProps({
+const props = defineProps({
   header: String,
+  url: String,
+  payload: {
+    type: Object,
+    default: null
+  }
 })
 
 const isActive = ref(false)
+
+function handleAdding(itemName) {
+  isActive.value = false
+
+  const { data, pending } = useFetch(props.url, {
+    method: 'POST',
+    body: {
+      itemName,
+      ...props.payload,
+    }
+  })
+}
 </script>
 
 
@@ -17,6 +34,7 @@ const isActive = ref(false)
   <AddItemDialog 
     v-if="isActive"
     @close="isActive = false"
+    @ok="handleAdding"
   >
     <template v-slot:header>{{ header }}</template>
   </AddItemDialog>

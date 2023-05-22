@@ -59,6 +59,8 @@ async function handleAddTask() {
 
   <AddItem 
     :header="`Добавить задачу в проект ${projectName}`"
+    url="/api/tasks"
+    :payload="{ projectId }"
   />
  
 </template>

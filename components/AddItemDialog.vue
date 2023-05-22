@@ -1,4 +1,8 @@
+<script setup>
+import { ref } from "vue"
 
+const itemName = ref('')
+</script>
 
 
 <template>
@@ -9,11 +13,11 @@
 
         <label>
           Имя
-          <input>
+          <input v-model="itemName">
         </label>
 
         <div class="buttons">
-          <button>Ok</button>
+          <button @click="$emit('ok', itemName)">Ok</button>
           <button @click="$emit('close')">Cancel</button>
         </div>
       </div>

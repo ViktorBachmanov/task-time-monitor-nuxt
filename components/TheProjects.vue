@@ -35,6 +35,7 @@ const currentProjectName = computed(() => {
 
   <AddItem 
     header="Добавить проект"
+    url="/api/projects"
   />
 
   <Suspense>
