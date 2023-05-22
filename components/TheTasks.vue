@@ -1,6 +1,7 @@
 <script setup>
 const props = defineProps({
-  projectId: Number
+  projectId: Number,
+  projectName: String,
 })
 
 // const fetchResult = computed(async () => {
@@ -57,7 +58,7 @@ async function handleAddTask() {
   </select>
 
   <AddItem 
-    header="Добавить задачу"
+    :header="`Добавить задачу в проект ${projectName}`"
   />
  
 </template>

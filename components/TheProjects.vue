@@ -1,11 +1,17 @@
 <script setup>
+import { computed } from 'vue'
+
 const { data, refresh } = await useFetch('/api/projects')
 
 const currentProjectId = useState('currentProjectId', () => 1)
 
 const playing = useState('playing')
 
+const currentProjectName = computed(() => {
+  const currentProject = data.value.rows.find(row => row.id === currentProjectId.value)
 
+  return currentProject.name;
+})
 </script>
 
 
@@ -34,6 +40,7 @@ const playing = useState('playing')
   <Suspense>
     <TheTasks 
       :projectId="currentProjectId"
+      :projectName="currentProjectName"
     />
   </Suspense>
 
