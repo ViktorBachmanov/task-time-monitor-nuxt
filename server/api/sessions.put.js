@@ -21,13 +21,13 @@ export default defineEventHandler(async (event) => {
   // console.log()
 
   const [result] = await connection.execute(
-    `UPDATE sessions SET closed_at = CURRENT_TIMESTAMP(), seconds = TIMESTAMPDIFF(SECOND, ?, CURRENT_TIMESTAMP()) WHERE id = ?`,
+    `UPDATE sessions SET updated_at = CURRENT_TIMESTAMP(), seconds = TIMESTAMPDIFF(SECOND, ?, CURRENT_TIMESTAMP()) WHERE id = ?`,
     [currentSession[0].created_at, currentSessionId]
   );
 
   const [rows] = await connection.execute(
     // "SELECT * FROM `sessions` WHERE id = ?",
-    `SELECT sessions.id AS id, created_at, closed_at, seconds, tasks.name AS task_name 
+    `SELECT sessions.id AS id, created_at, updated_at, seconds, tasks.name AS task_name 
       FROM sessions, tasks WHERE task_id = tasks.id AND sessions.id = ?`,
     [currentSessionId]
   );

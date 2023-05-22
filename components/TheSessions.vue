@@ -1,17 +1,17 @@
 <script setup>
+import { ref } from 'vue'
+
+
+const currentSessionId = ref(null)
+
+
+const currentTaskId = useState('currentTaskId')
+
+
 
 const { data, refresh } = await useFetch('/api/sessions')
 
-onMounted(() => {
-  window.addEventListener('refreshSessions', refresh)
-})
 
-onUnmounted(() => {
-  window.removeEventListener('refreshSessions', refresh)
-})
-// const sessions = useState('sessions', () => data.value?.rows)
-
-// const currentSessionId = useState('currentSessionId', () => null)
 const totalSeconds = computed(() => data.value.rows.reduce((total, session) => {
   return total + session.seconds
 }, 0))
@@ -45,8 +45,8 @@ function formatTime(session) {
   switch(representation.value) {
     case 'common':
       return `${new Date(session.created_at).toLocaleTimeString()} - 
-        ${new Date(session.closed_at).toLocaleTimeString()} = 
-        ${new Date(new Date(session.closed_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString()}`
+        ${new Date(session.updated_at).toLocaleTimeString()} = 
+        ${new Date(new Date(session.updated_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString()}`
     case 'compact':
       return new Date(session.seconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString()
   }
@@ -62,10 +62,39 @@ function toggleRepresentation() {
       break
   }
 }
+
+async function createSession() {
+  const { data } = await useFetch('/api/sessions', {
+    method: 'POST',
+    body: {
+      currentTaskId: currentTaskId.value,
+    },
+  })  
+
+  currentSessionId.value = data.value.session.id;
+}
+
+async function updateSession() {
+  const { data } = await useFetch('/api/sessions', {
+    method: 'PUT',
+    body: {
+      currentSessionId: currentSessionId.value,
+    },
+  })  
+
+  refresh()
+}
 </script>
 
 
 <template>
+  <ThePlayer
+    :currentSessionId="currentSessionId"
+    @play="createSession"
+    @update="updateSession"
+    @stop="updateSession"
+  />
+
   <div>
     Сеансы
   </div>
@@ -94,8 +123,8 @@ function toggleRepresentation() {
       :key="session.id"
     >
       {{ new Date(session.created_at).toLocaleTimeString() }} - 
-      {{ new Date(session.closed_at).toLocaleTimeString() }} =
-      {{ new Date(new Date(session.closed_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString() }} |
+      {{ new Date(session.updated_at).toLocaleTimeString() }} =
+      {{ new Date(new Date(session.updated_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString() }} |
        {{ session.task_name }}
     </li>
   </ul> -->
