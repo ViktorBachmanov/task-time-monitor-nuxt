@@ -7,7 +7,15 @@
       <div class="dialog">
         <slot name="header"></slot>
 
-        <button @click="$emit('close')">Cancel</button>
+        <label>
+          Имя
+          <input>
+        </label>
+
+        <div class="buttons">
+          <button>Ok</button>
+          <button @click="$emit('close')">Cancel</button>
+        </div>
       </div>
     </div>
   </Transition>
@@ -29,14 +37,33 @@
   .dialog {
     min-width: 200px;
     min-height: 120px;
-    background-color: silver;
+    background-color: rgb(217, 205, 205);
     padding: 0.5em;
     color: black;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5em;
 
-    button {
-      border-radius: 0.5em;
-      border: 1px solid gray;
-      padding: 0.5em;
+    label {
+      display: flex;
+      flex-direction: column;
+
+      input {
+        background-color: white;
+        color: black;
+        padding: 0.25em;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-evenly;
+
+      button {
+        border-radius: 0.5em;
+        border: 1px solid gray;
+        padding: 0.5em;
+      }
     }
   }
 }
