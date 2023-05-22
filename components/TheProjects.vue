@@ -14,8 +14,6 @@ const playing = useState('playing')
     Проекты
   </div>
 
-  <IconPlusButton />
-
   <select 
     v-model="currentProjectId"
     :class="{ disabled: playing }"
@@ -28,6 +26,10 @@ const playing = useState('playing')
       {{ project.name }}
     </option>
   </select>
+
+  <AddItem 
+    header="Добавить проект"
+  />
 
   <Suspense>
     <TheTasks 

@@ -41,11 +41,7 @@ async function handleAddTask() {
     Задачи
   </div>
 
-  <input v-model="newTaskName">
-
-  <IconPlusButton 
-    @click="handleAddTask"
-  />
+  <!-- <input v-model="newTaskName"> -->
 
   <select 
     v-model="currentTaskId"
@@ -60,5 +56,8 @@ async function handleAddTask() {
     </option>
   </select>
 
+  <AddItem 
+    header="Добавить задачу"
+  />
  
 </template>
