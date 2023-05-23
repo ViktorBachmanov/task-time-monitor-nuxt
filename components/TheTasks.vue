@@ -24,15 +24,10 @@ const playing = useState('playing')
 
 const newTaskName = ref(null)
 
-async function handleAddTask() {
-  const { data } = await useFetch('/api/tasks', {
-    method: 'POST',
-    body: {
-      newTaskName: newTaskName.value,
-    },
-  })  
+async function handleTaskAdded() {  
+  await refresh();
 
-  refresh();
+  // currentTaskId.value = data.value.rows[0]?.id;
 }
 </script>
 
@@ -61,6 +56,7 @@ async function handleAddTask() {
     :header="`Добавить задачу в проект ${projectName}`"
     url="/api/tasks"
     :payload="{ projectId }"
+    @added="handleTaskAdded"
   />
  
 </template>

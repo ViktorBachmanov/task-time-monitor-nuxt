@@ -12,6 +12,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['added'])
+
 const isActive = ref(false)
 const isPending = ref(false)
 
@@ -30,6 +32,7 @@ async function handleAdding(itemName) {
 
   if(data.value) {
     $toast.success('You did it!');
+    emit('added')
   }
   else if(error.value) {
     $toast.error('Error');
