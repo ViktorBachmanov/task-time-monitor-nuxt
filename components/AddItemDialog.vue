@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from "vue"
 
+defineProps({
+  isPending: Boolean,
+})
+
 const itemName = ref('')
 </script>
 
@@ -20,6 +24,11 @@ const itemName = ref('')
           <button @click="$emit('ok', itemName)">Ok</button>
           <button @click="$emit('close')">Cancel</button>
         </div>
+
+        <Transition appear>
+          <div v-if="isPending" class="pending">
+          </div>
+        </Transition>
       </div>
     </div>
   </Transition>
@@ -47,6 +56,7 @@ const itemName = ref('')
     display: flex;
     flex-direction: column;
     row-gap: 0.5em;
+    position: relative;
 
     label {
       display: flex;
@@ -68,6 +78,15 @@ const itemName = ref('')
         border: 1px solid gray;
         padding: 0.5em;
       }
+    }
+
+    .pending {
+      position: absolute;
+      left: 0;
+      top: 0;
+      min-width: 100%;
+      min-height: 100%;
+      background-color: rgba(100, 100, 100, 0.5);
     }
   }
 }

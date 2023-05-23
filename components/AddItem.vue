@@ -11,17 +11,22 @@ const props = defineProps({
 })
 
 const isActive = ref(false)
+const isPending = ref(false)
 
-function handleAdding(itemName) {
-  isActive.value = false
+async function handleAdding(itemName) {
+  isPending.value = true
 
-  const { data, pending } = useFetch(props.url, {
+  const { data, pending, error } = await useFetch(props.url, {
     method: 'POST',
     body: {
       itemName,
       ...props.payload,
     }
   })
+
+
+  isActive.value = false
+  isPending.value = false
 }
 </script>
 
@@ -35,6 +40,7 @@ function handleAdding(itemName) {
     v-if="isActive"
     @close="isActive = false"
     @ok="handleAdding"
+    :isPending="isPending"
   >
     <template v-slot:header>{{ header }}</template>
   </AddItemDialog>
