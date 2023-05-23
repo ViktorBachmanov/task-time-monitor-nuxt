@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue'
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 const props = defineProps({
   header: String,
@@ -23,6 +25,15 @@ async function handleAdding(itemName) {
       ...props.payload,
     }
   })
+
+  const $toast = useToast();
+
+  if(data.value) {
+    $toast.success('You did it!');
+  }
+  else if(error.value) {
+    $toast.error('Error');
+  }
 
 
   isActive.value = false
