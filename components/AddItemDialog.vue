@@ -6,6 +6,10 @@ defineProps({
 })
 
 const itemName = ref('')
+
+const vFocus = {
+  mounted: (el) => el.focus()
+}
 </script>
 
 
@@ -17,7 +21,10 @@ const itemName = ref('')
 
         <label>
           Имя
-          <input v-model="itemName">
+          <input 
+            v-model="itemName"
+            v-focus
+          >
         </label>
 
         <div class="buttons">

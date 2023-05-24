@@ -1,7 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-import {useToast} from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
 
 const props = defineProps({
   header: String,
@@ -9,13 +6,15 @@ const props = defineProps({
   payload: {
     type: Object,
     default: null
-  }
+  },
+  successMessage: String
 })
 
 const emit = defineEmits(['added'])
 
 const isActive = ref(false)
 const isPending = ref(false)
+const notification = ref(null)
 
 async function handleAdding(itemName) {
   isPending.value = true
@@ -28,14 +27,12 @@ async function handleAdding(itemName) {
     }
   })
 
-  const $toast = useToast();
-
   if(data.value) {
-    $toast.success('You did it!');
+    notification.value.success(props.successMessage)
     emit('added')
   }
   else if(error.value) {
-    $toast.error('Error');
+    notification.value.error('Ошибка')
   }
 
 
@@ -58,4 +55,6 @@ async function handleAdding(itemName) {
   >
     <template v-slot:header>{{ header }}</template>
   </AddItemDialog>
+
+  <TheNotification ref="notification" />
 </template>

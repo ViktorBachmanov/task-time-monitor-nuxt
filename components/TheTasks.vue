@@ -57,6 +57,7 @@ async function handleTaskAdded() {
     url="/api/tasks"
     :payload="{ projectId }"
     @added="handleTaskAdded"
+    success-message="Задача добавлена"
   />
  
 </template>
