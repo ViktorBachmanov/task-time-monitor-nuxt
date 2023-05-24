@@ -1,6 +1,7 @@
 <script setup>
 const props = defineProps({
-  projectId: Number
+  projectId: Number,
+  projectName: String,
 })
 
 // const fetchResult = computed(async () => {
@@ -13,7 +14,7 @@ watch(() => props.projectId, async () => {
   // console.log('project id changed')
   await refresh();
 
-  currentTaskId.value = data.value.rows[0].id;
+  currentTaskId.value = data.value.rows[0]?.id;
 })
 
 const currentTaskId = useState('currentTaskId', () => 1)
@@ -23,15 +24,10 @@ const playing = useState('playing')
 
 const newTaskName = ref(null)
 
-async function handleAddTask() {
-  const { data } = await useFetch('/api/tasks', {
-    method: 'POST',
-    body: {
-      newTaskName: newTaskName.value,
-    },
-  })  
+async function handleTaskAdded(taskId) {  
+  await refresh();
 
-  refresh();
+  currentTaskId.value = taskId;
 }
 </script>
 
@@ -41,11 +37,7 @@ async function handleAddTask() {
     Задачи
   </div>
 
-  <input v-model="newTaskName">
-
-  <IconPlusButton 
-    @click="handleAddTask"
-  />
+  <!-- <input v-model="newTaskName"> -->
 
   <select 
     v-model="currentTaskId"
@@ -60,5 +52,12 @@ async function handleAddTask() {
     </option>
   </select>
 
+  <AddItem 
+    :header="`Добавить задачу в проект ${projectName}`"
+    url="/api/tasks"
+    :payload="{ projectId }"
+    @added="handleTaskAdded"
+    success-message="Задача добавлена"
+  />
  
 </template>

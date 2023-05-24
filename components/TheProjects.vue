@@ -1,11 +1,23 @@
 <script setup>
+import { computed } from 'vue'
+
 const { data, refresh } = await useFetch('/api/projects')
 
 const currentProjectId = useState('currentProjectId', () => 1)
 
 const playing = useState('playing')
 
+const currentProjectName = computed(() => {
+  const currentProject = data.value.rows.find(row => row.id === currentProjectId.value)
 
+  return currentProject.name;
+})
+
+async function handleProjectAdded(projectId) {  
+  await refresh();
+
+  currentProjectId.value = projectId;
+}
 </script>
 
 
@@ -13,8 +25,6 @@ const playing = useState('playing')
   <div>
     Проекты
   </div>
-
-  <IconPlusButton />
 
   <select 
     v-model="currentProjectId"
@@ -29,9 +39,17 @@ const playing = useState('playing')
     </option>
   </select>
 
+  <AddItem 
+    header="Добавить проект"
+    url="/api/projects"
+    @added="handleProjectAdded"
+    success-message="Проект добавлен"
+  />
+
   <Suspense>
     <TheTasks 
       :projectId="currentProjectId"
+      :projectName="currentProjectName"
     />
   </Suspense>
 

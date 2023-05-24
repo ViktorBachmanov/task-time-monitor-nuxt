@@ -2,8 +2,7 @@ import * as mysql from "mysql2/promise";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const newTaskName = body.itemName;
-  const projectId = body.projectId;
+  const newProjectName = body.itemName;
 
   const runtimeConfig = useRuntimeConfig();
 
@@ -15,12 +14,12 @@ export default defineEventHandler(async (event) => {
   });
 
   const [result] = await connection.execute(
-    "INSERT INTO `tasks` (name, project_id) VALUES (?, ?)",
-    [newTaskName, projectId]
+    "INSERT INTO `projects` (name) VALUES (?)",
+    [newProjectName]
   );
 
   const [rows, fields] = await connection.execute(
-    "SELECT * FROM `tasks` WHERE id = LAST_INSERT_ID()"
+    "SELECT * FROM `projects` WHERE id = LAST_INSERT_ID()"
   );
 
   return {
