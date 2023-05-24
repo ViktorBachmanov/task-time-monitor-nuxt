@@ -24,10 +24,10 @@ const playing = useState('playing')
 
 const newTaskName = ref(null)
 
-async function handleTaskAdded() {  
+async function handleTaskAdded(taskId) {  
   await refresh();
 
-  // currentTaskId.value = data.value.rows[0]?.id;
+  currentTaskId.value = taskId;
 }
 </script>
 

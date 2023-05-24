@@ -23,6 +23,6 @@ export default defineEventHandler(async (event) => {
   );
 
   return {
-    createdTask: rows[0],
+    createdItem: rows[0],
   };
 });

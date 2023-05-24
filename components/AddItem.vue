@@ -19,7 +19,7 @@ const notification = ref(null)
 async function handleAdding(itemName) {
   isPending.value = true
 
-  const { data, pending, error } = await useFetch(props.url, {
+  const { data, error } = await useFetch(props.url, {
     method: 'POST',
     body: {
       itemName,
@@ -29,7 +29,7 @@ async function handleAdding(itemName) {
 
   if(data.value) {
     notification.value.success(props.successMessage)
-    emit('added')
+    emit('added', data.value.createdItem.id)
   }
   else if(error.value) {
     notification.value.error('Ошибка')

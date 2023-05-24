@@ -12,6 +12,12 @@ const currentProjectName = computed(() => {
 
   return currentProject.name;
 })
+
+async function handleProjectAdded(projectId) {  
+  await refresh();
+
+  currentProjectId.value = projectId;
+}
 </script>
 
 
@@ -36,6 +42,7 @@ const currentProjectName = computed(() => {
   <AddItem 
     header="Добавить проект"
     url="/api/projects"
+    @added="handleProjectAdded"
     success-message="Проект добавлен"
   />
 
