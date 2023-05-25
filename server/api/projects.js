@@ -1,9 +1,6 @@
 // import * as mysql from "mysql2/promise";
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
-  const currentTaskId = body.currentTaskId;
-
   // const runtimeConfig = useRuntimeConfig();
 
   // const connection = await mysql.createConnection({
@@ -13,18 +10,8 @@ export default defineEventHandler(async (event) => {
   //   database: runtimeConfig.database,
   // });
 
-  const [result] = await promisePool.execute(
-    "INSERT INTO `sessions` (task_id) VALUES (?)",
-    [currentTaskId]
-  );
-
-  const [rows] = await promisePool.execute(
-    "SELECT * FROM `sessions` WHERE id = ?",
-    [result.insertId]
-  );
-
+  const [rows, fields] = await promisePool.execute("SELECT * FROM `projects`");
   return {
-    // result,
-    session: rows[0],
+    rows,
   };
 });
