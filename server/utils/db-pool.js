@@ -16,5 +16,3 @@ export const promisePool = mysql.createPool({
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
 });
-
-// export const promisePool = pool.promise();

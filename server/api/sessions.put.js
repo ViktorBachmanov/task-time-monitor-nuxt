@@ -1,24 +1,11 @@
-// import * as mysql from "mysql2/promise";
-
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const currentSessionId = body.currentSessionId;
-
-  // const runtimeConfig = useRuntimeConfig();
-
-  // const connection = await mysql.createConnection({
-  //   host: runtimeConfig.databaseHost,
-  //   user: runtimeConfig.databaseUser,
-  //   password: runtimeConfig.databasePassword,
-  //   database: runtimeConfig.database,
-  // });
 
   const [currentSession] = await promisePool.execute(
     "SELECT created_at FROM sessions WHERE id = ?",
     [currentSessionId]
   );
-
-  // console.log()
 
   const [result] = await promisePool.execute(
     `UPDATE sessions SET updated_at = CURRENT_TIMESTAMP(), seconds = TIMESTAMPDIFF(SECOND, ?, CURRENT_TIMESTAMP()) WHERE id = ?`,
