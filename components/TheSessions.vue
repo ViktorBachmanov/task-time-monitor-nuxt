@@ -46,7 +46,8 @@ function formatTime(session) {
         ${new Date(session.updated_at).toLocaleTimeString()} = 
         ${new Date(new Date(session.updated_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString()}`
     case 'compact':
-      return new Date(session.seconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString()
+      // return new Date(session.seconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString()
+      return (session.seconds / 60 / 60).toFixed(2)
   }
 }
 
@@ -114,6 +115,7 @@ async function updateSession() {
     <option value="today">Сегодня</option>
     <option value="april">Апрель</option>
     <option value="may">Май</option>
+    <option value="april-may">Апрель-Май</option>
   </select>
 
   <!-- {{ dateFrom }} -->
