@@ -1,15 +1,13 @@
 <script setup>
-import { ref } from 'vue'
-
 
 const currentSessionId = ref(null)
 
-
 const currentTaskId = useState('currentTaskId')
 
+const period = ref('today')
 
 
-const { data, refresh } = await useFetch('/api/sessions')
+const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}`)
 
 
 const totalSeconds = computed(() => data.value.rows.reduce((total, session) => {
@@ -48,7 +46,8 @@ function formatTime(session) {
         ${new Date(session.updated_at).toLocaleTimeString()} = 
         ${new Date(new Date(session.updated_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString()}`
     case 'compact':
-      return new Date(session.seconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString()
+      // return new Date(session.seconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString()
+      return (session.seconds / 60 / 60).toFixed(2)
   }
 }
 
@@ -84,6 +83,12 @@ async function updateSession() {
 
   refresh()
 }
+
+// const dateFrom = computed(() => {
+//   return new Date().toISOString().split('.')[0].replace('T', ' ')
+// })
+
+
 </script>
 
 
@@ -101,6 +106,21 @@ async function updateSession() {
 
   <button @click="toggleRepresentation">Rep</button>
 
+  <br/>
+
+  <select 
+    v-model="period"
+    style="margin-top: 1em;"
+  >
+    <option value="today">Сегодня</option>
+    <option value="april">Апрель</option>
+    <option value="may">Май</option>
+    <option value="april-may">Апрель-Май</option>
+  </select>
+
+  <!-- {{ dateFrom }} -->
+  <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->
+
   <table width="1em">
     <thead>
       <tr>
@@ -117,25 +137,12 @@ async function updateSession() {
     </tbody>
   </table>
 
-  <!-- <ul>
-    <li
-      v-for="session in data.rows"
-      :key="session.id"
-    >
-      {{ new Date(session.created_at).toLocaleTimeString() }} - 
-      {{ new Date(session.updated_at).toLocaleTimeString() }} =
-      {{ new Date(new Date(session.updated_at) - new Date(session.created_at) - 3 * 60 * 60 * 1000).toLocaleTimeString() }} |
-       {{ session.task_name }}
-    </li>
-  </ul> -->
-
+  
   <div style="margin: 0.5em;">
-    Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }}
+    <!-- Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }} -->
+    Итого: {{ (totalSeconds / 60 / 60).toFixed(2) }} часов
   </div>
 
-  <!-- <pre>
-    {{ compact }}
-  </pre> -->
 </template>
 
 
