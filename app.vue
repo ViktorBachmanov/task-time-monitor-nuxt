@@ -13,13 +13,9 @@ useHead({
 
     <!-- <FirstComponent /> -->
 
-    <Suspense>
-      <TheProjects />
-    </Suspense>
-
-    <Suspense>
-      <TheSessions />
-    </Suspense>
+    <NuxtLayout>
+      <NuxtPage/>
+    </NuxtLayout>
     
   </div>
 </template>
