@@ -60,14 +60,14 @@ async function stop() {
       @click="play"
       :class="{ disabled: playing }"
     >
-      <IconPlayButton />
+      <PlayButtonIcon />
     </button>
 
     <button 
       @click="stop"
       :class="{ disabled: !playing }"
     >
-      <IconStopButton />
+      <StopButtonIcon />
     </button>
 
     <pre>

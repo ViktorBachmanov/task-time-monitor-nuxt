@@ -23,7 +23,6 @@
 
 nav {
   display: flex;
-  border: 1px solid magenta;
   column-gap: 0.5em;
 }
 
