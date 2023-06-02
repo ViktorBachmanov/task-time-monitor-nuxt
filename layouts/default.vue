@@ -1,12 +1,17 @@
 <template>
   <div>
-    Some default layout shared across all pages
-    <NuxtLink to="/">
-      Home
-    </NuxtLink>
-    <NuxtLink to="/about">
-      About
-    </NuxtLink>
-    <slot />
+    <AppBar />
+
+    <main>
+      <slot />
+    </main>
   </div>
 </template>
+
+
+<style lang="scss" scoped>
+main {
+  padding: 2em;
+}
+
+</style>

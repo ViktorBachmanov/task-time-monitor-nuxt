@@ -28,7 +28,6 @@ useHead({
   min-height: 100vh;
   // display: flex;
   // flex-direction: column;
-  padding: 2em;
   .dark & {
     background-color: $bg-dark-0;
     color: silver;
