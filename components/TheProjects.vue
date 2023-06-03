@@ -5,7 +5,8 @@ const { data, refresh } = await useFetch('/api/projects')
 
 const currentProjectId = useState('currentProjectId', () => 1)
 
-const playing = useState('playing')
+// const playing = useState('playing')
+const playing = useState('currentSessionId')
 
 const currentProjectName = computed(() => {
   const currentProject = data.value.rows.find(row => row.id === currentProjectId.value)

@@ -2,60 +2,65 @@
 import { ref, watch } from 'vue';
 
 
+// const props = defineProps({
+//   currentSessionId: Number
+// })
 const props = defineProps({
-  currentSessionId: Number
+  timer: String
 })
 
-const playing = useState('playing', () => false)
+// const playing = useState('playing', () => false)
+const playing = useState('currentSessionId')
 
 
-const timer = ref(0)
+// const timer = ref(0)
 
-const emit = defineEmits(['play', 'update', 'stop'])
+// const emit = defineEmits(['play', 'update', 'stop'])
+const emit = defineEmits(['play', 'stop'])
 
 
 function play() {
-  playing.value = true;
+  // playing.value = true;
 
   emit('play')
 }
 
-let intervalId
+// let intervalId
 
-watch(() => props.currentSessionId, () => {
-  console.log('Start interval')
+// watch(() => props.currentSessionId, () => {
+//   console.log('Start interval')
 
-  const startDate = Date.now()
+//   const startDate = Date.now()
 
-  let count = 0
+//   let count = 0
 
-  intervalId = setInterval(() => {
-    const time = Date.now() - startDate
+//   intervalId = setInterval(() => {
+//     const time = Date.now() - startDate
 
-    timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
+//     timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
 
-    if(++count % 60 === 0) {
-      emit('update')
-    }
-  }, 1000)
-})
+//     if(++count % 60 === 0) {
+//       emit('update')
+//     }
+//   }, 1000)
+// })
 
 
-const elem = ref(null)
+// const elem = ref(null)
 
 async function stop() {
-  playing.value = false;
+  // playing.value = false;
 
   emit('stop')
 
-  clearInterval(intervalId)
+  // clearInterval(intervalId)
 }
 
 </script>
 
 
 <template>
-  <div id="player" ref="elem">
+  <div id="player">
     <button 
       @click="play"
       :class="{ disabled: playing }"

@@ -1,6 +1,7 @@
 <script setup>
 
-const currentSessionId = ref(null)
+// const currentSessionId = ref(null)
+const currentSessionId = useState('currentSessionId', () => null)
 
 const currentTaskId = useState('currentTaskId')
 
@@ -72,7 +73,34 @@ async function createSession() {
   })  
 
   currentSessionId.value = data.value.session.id;
+
+  startTimer()
 }
+
+let intervalId
+
+const timer = ref('')
+
+function startTimer() {
+  const startDate = Date.now()
+
+  let count = 0
+
+  intervalId = setInterval(() => {
+    const time = Date.now() - startDate
+
+    timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
+
+    if(++count % 60 === 0) {
+      updateSession()
+    }
+  }, 1000)
+}
+
+function stopTimer() {
+  clearInterval(intervalId)
+}
+
 
 async function updateSession() {
   const { data } = await useFetch('/api/sessions', {
@@ -81,6 +109,16 @@ async function updateSession() {
       currentSessionId: currentSessionId.value,
     },
   })  
+
+  refresh()
+}
+
+async function closeSession() {
+  await updateSession()
+
+  currentSessionId.value = null
+
+  stopTimer()
 
   refresh()
 }
@@ -95,10 +133,9 @@ async function updateSession() {
 
 <template>
   <ThePlayer
-    :currentSessionId="currentSessionId"
+    :timer="timer"
     @play="createSession"
-    @update="updateSession"
-    @stop="updateSession"
+    @stop="closeSession"
   />
 
   <div>

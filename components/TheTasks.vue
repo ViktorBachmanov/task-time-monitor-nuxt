@@ -19,7 +19,8 @@ watch(() => props.projectId, async () => {
 
 const currentTaskId = useState('currentTaskId', () => 1)
 
-const playing = useState('playing')
+// const playing = useState('playing')
+const playing = useState('currentSessionId')
 
 
 const newTaskName = ref(null)
