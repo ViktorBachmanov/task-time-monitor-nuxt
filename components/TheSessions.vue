@@ -19,6 +19,7 @@ const compact = computed(() => {
   data.value.rows.forEach((session) => {
     if(!(session.task_id in obj)) {
       obj[session.task_id] = {
+        project_name: session.project_name,
         task_name: session.task_name,
         seconds: session.seconds
       }
@@ -124,13 +125,15 @@ async function updateSession() {
   <table width="1em">
     <thead>
       <tr>
-        <th width="1em">Задачи</th>
+        <th width="1em">Проект</th>
+        <th width="1em">Задача</th>
         <th width="1em">Время</th>
       </tr>
     </thead>
 
     <tbody>
       <tr v-for="session in sessions">
+        <td style="white-space: nowrap;">{{ session.project_name }}</td>
         <td style="white-space: nowrap;">{{ session.task_name }}</td>
         <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
       </tr>
