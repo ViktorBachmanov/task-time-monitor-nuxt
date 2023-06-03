@@ -13,13 +13,9 @@ useHead({
 
     <!-- <FirstComponent /> -->
 
-    <Suspense>
-      <TheProjects />
-    </Suspense>
-
-    <Suspense>
-      <TheSessions />
-    </Suspense>
+    <NuxtLayout>
+      <NuxtPage/>
+    </NuxtLayout>
     
   </div>
 </template>
@@ -32,7 +28,6 @@ useHead({
   min-height: 100vh;
   // display: flex;
   // flex-direction: column;
-  padding: 2em;
   .dark & {
     background-color: $bg-dark-0;
     color: silver;

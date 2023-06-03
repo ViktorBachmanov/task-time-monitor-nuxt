@@ -44,7 +44,7 @@ async function handleAdding(itemName) {
 
 <template>
   <button @click="isActive = true">
-    <IconPlusButton />
+    <PlusButtonIcon />
   </button>
 
   <AddItemDialog 
