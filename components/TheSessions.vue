@@ -7,8 +7,10 @@ const currentTaskId = useState('currentTaskId')
 
 const period = ref('today')
 
+const filterProjectId = ref('all')
 
-const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}`)
+
+const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}&project-id=${filterProjectId.value}`)
 
 
 const totalSeconds = computed(() => data.value.rows.reduce((total, session) => {
@@ -76,7 +78,7 @@ async function createSession() {
 
   startTimer()
 
-  updateSession()
+  // updateSession()
 }
 
 let intervalId
@@ -157,6 +159,8 @@ async function closeSession() {
     <option value="may">Май</option>
     <option value="april-may">Апрель-Май</option>
   </select>
+
+  <FilterOfProjects v-model="filterProjectId" />
 
   <!-- {{ dateFrom }} -->
   <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->

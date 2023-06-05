@@ -1,6 +1,8 @@
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
+  const projectId = query["project-id"];
+
   let dateFrom, dateTo;
 
   switch (query["period"]) {
@@ -29,6 +31,7 @@ export default defineEventHandler(async (event) => {
      FROM sessions, tasks, projects 
      WHERE task_id = tasks.id 
      AND tasks.project_id = projects.id
+     ${projectId !== "all" ? "AND projects.id = " + projectId : ""}
      AND created_at BETWEEN ? AND ?
      ORDER BY sessions.id DESC`,
     [dateFrom, dateTo]
