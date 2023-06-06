@@ -18,37 +18,23 @@ const totalSeconds = computed(() => data.value.rows.reduce((total, session) => {
 }, 0))
 
 const compact = computed(() => {
-  // const obj = {};
-  // data.value.rows.forEach((session) => {
-  //   if(!(session.task_id in obj)) {
-  //     obj[session.task_id] = {
-  //       project_name: session.project_name,
-  //       task_name: session.task_name,
-  //       seconds: session.seconds
-  //     }
-  //   }
-  //   else {
-  //     obj[session.task_id].seconds += session.seconds
-  //   }
-  // })
-
-  // return obj
-
   const collapsedArray = [];
   data.value.rows.forEach((session) => {
-    let collapsedSession
-    if(collapsedSession = collapsedArray.find(collapsedSession => collapsedSession.id === session.id)) {
-      collapsedSession.seconds += session.seconds
+    const foundSession = collapsedArray.find(collapsedSession => collapsedSession.task_id === session.task_id)
+    if(foundSession) {
+      foundSession.seconds += session.seconds
     }
     else {
-      collapsedSession.push({
+      collapsedArray.push({
         id: session.id,
         project_name: session.project_name,
         task_name: session.task_name,
+        task_id: session.task_id,
         seconds: session.seconds
       })
     }
   })
+
   return collapsedArray
 })
 
