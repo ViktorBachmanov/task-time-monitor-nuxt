@@ -18,21 +18,38 @@ const totalSeconds = computed(() => data.value.rows.reduce((total, session) => {
 }, 0))
 
 const compact = computed(() => {
-  const obj = {};
+  // const obj = {};
+  // data.value.rows.forEach((session) => {
+  //   if(!(session.task_id in obj)) {
+  //     obj[session.task_id] = {
+  //       project_name: session.project_name,
+  //       task_name: session.task_name,
+  //       seconds: session.seconds
+  //     }
+  //   }
+  //   else {
+  //     obj[session.task_id].seconds += session.seconds
+  //   }
+  // })
+
+  // return obj
+
+  const collapsedArray = [];
   data.value.rows.forEach((session) => {
-    if(!(session.task_id in obj)) {
-      obj[session.task_id] = {
+    let collapsedSession
+    if(collapsedSession = collapsedArray.find(collapsedSession => collapsedSession.id === session.id)) {
+      collapsedSession.seconds += session.seconds
+    }
+    else {
+      collapsedSession.push({
+        id: session.id,
         project_name: session.project_name,
         task_name: session.task_name,
         seconds: session.seconds
-      }
-    }
-    else {
-      obj[session.task_id].seconds += session.seconds
+      })
     }
   })
-
-  return obj
+  return collapsedArray
 })
 
 const representation = ref('common')  // common | compact
@@ -46,12 +63,15 @@ const sessions = computed(() => {
 function formatTime(session) {
   switch(representation.value) {
     case 'common':
+      const updatedAt = session.id === currentSessionId.value
+        ? new Date().toLocaleTimeString()
+        : new Date(session.updated_at).toLocaleTimeString()
       return `${new Date(session.created_at).toLocaleTimeString()} - 
-        ${new Date(session.updated_at).toLocaleTimeString()} = 
+        ${updatedAt} = 
         ${new Date((session.seconds - 3 * 60 * 60) * 1000).toLocaleTimeString()}`
     case 'compact':
-      // return new Date(session.seconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString()
-      return (session.seconds / 60 / 60).toFixed(2)
+      return new Date((session.seconds - 3 * 60 * 60) * 1000).toLocaleTimeString()
+      // return (session.seconds / 60 / 60).toFixed(2)
   }
 }
 
@@ -76,27 +96,36 @@ async function createSession() {
 
   currentSessionId.value = data.value.session.id;
 
-  startTimer()
+  await updateSession()
 
-  // updateSession()
+  startTimer()
 }
 
 let intervalId
 
-const timer = ref('')
+// const timer = ref('')
+const timer = ref(0)
 
 function startTimer() {
   const startDate = Date.now()
 
-  let count = 0
+  // let count = 0
+  timer.value = 0;
 
   intervalId = setInterval(() => {
-    const time = Date.now() - startDate
+    // const time = Date.now() - startDate
 
-    timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
+    // timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
+    timer.value++;
 
-    if(++count % 60 === 0) {
+
+    if(timer.value % 60 === 0) {
       updateSession()
+    }
+
+    const currentSession = data.value.rows.find(session => session.id === currentSessionId.value)
+    if(currentSession) {
+      currentSession.seconds = timer.value
     }
   }, 1000)
 }
@@ -175,7 +204,7 @@ async function closeSession() {
     </thead>
 
     <tbody>
-      <tr v-for="session in sessions">
+      <tr v-for="session in sessions" :key="session.id">
         <td style="white-space: nowrap;">{{ session.project_name }}</td>
         <td style="white-space: nowrap;">{{ session.task_name }}</td>
         <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
