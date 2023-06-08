@@ -119,7 +119,7 @@ function startTimer() {
 
       lastUpdate = Date.now()
 
-      console.log('has been updated')
+      console.log('has been updated in: ', new Date().toLocaleTimeString())
     }
 
     const currentSession = sessionsFilteredByProject.value.find(session => session.id === currentSessionId.value)
