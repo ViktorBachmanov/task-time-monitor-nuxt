@@ -1,12 +1,10 @@
 <script setup>
-import { ref, watch } from 'vue';
-
 
 // const props = defineProps({
 //   currentSessionId: Number
 // })
 const props = defineProps({
-  timer: Number
+  timer: String
 })
 
 // const playing = useState('playing', () => false)
@@ -76,7 +74,7 @@ async function stop() {
     </button>
 
     <pre>
-      {{ new Date((timer - 3 * 60 * 60) * 1000).toLocaleTimeString() }}
+      {{ timer }}
     </pre>
   </div>
 </template>

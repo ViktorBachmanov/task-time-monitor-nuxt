@@ -89,29 +89,32 @@ async function createSession() {
 
 let intervalId
 
-// const timer = ref('')
-const timer = ref(0)
+const timer = ref('')
 
 function startTimer() {
   const startDate = Date.now()
 
-  // let count = 0
-  timer.value = 0;
+  let lastUpdate = startDate;
+
+  timer.value = '00:00:00';
 
   intervalId = setInterval(() => {
-    // const time = Date.now() - startDate
+    const time = Date.now() - startDate
 
-    // timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
-    timer.value++;
+    timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
 
 
-    if(timer.value % 60 === 0) {
+    if((Date.now() - lastUpdate) > 1000 * 59) {
       updateSession()
+
+      lastUpdate = Date.now()
+
+      console.log('has been updated')
     }
 
     const currentSession = data.value.rows.find(session => session.id === currentSessionId.value)
     if(currentSession) {
-      currentSession.seconds = timer.value
+      currentSession.seconds = time / 1000
     }
   }, 1000)
 }
