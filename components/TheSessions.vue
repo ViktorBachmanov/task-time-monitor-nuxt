@@ -10,16 +10,26 @@ const period = ref('today')
 const filterProjectId = ref('all')
 
 
-const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}&project-id=${filterProjectId.value}`)
+// const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}&project-id=${filterProjectId.value}`)
+const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}`)
+
+const sessionsFilteredByProject = computed(() => {
+  if(filterProjectId.value === 'all') {
+    return data.value.rows
+  }
+  else {
+    return data.value.rows.filter(session => session.project_id === parseInt(filterProjectId.value))
+  }
+})
 
 
-const totalSeconds = computed(() => data.value.rows.reduce((total, session) => {
+const totalSeconds = computed(() => sessionsFilteredByProject.value.reduce((total, session) => {
   return total + session.seconds
 }, 0))
 
 const compact = computed(() => {
   const collapsedArray = [];
-  data.value.rows.forEach((session) => {
+  sessionsFilteredByProject.value.forEach((session) => {
     const foundSession = collapsedArray.find(collapsedSession => collapsedSession.task_id === session.task_id)
     if(foundSession) {
       foundSession.seconds += session.seconds
@@ -42,7 +52,7 @@ const representation = ref('common')  // common | compact
 
 const sessions = computed(() => {
   return representation.value === 'common'
-    ? data.value.rows
+    ? sessionsFilteredByProject.value
     : compact.value
 })
 
@@ -112,7 +122,7 @@ function startTimer() {
       console.log('has been updated')
     }
 
-    const currentSession = data.value.rows.find(session => session.id === currentSessionId.value)
+    const currentSession = sessionsFilteredByProject.value.find(session => session.id === currentSessionId.value)
     if(currentSession) {
       currentSession.seconds = time / 1000
     }
@@ -149,6 +159,20 @@ async function closeSession() {
 //   return new Date().toISOString().split('.')[0].replace('T', ' ')
 // })
 
+const projectsFilteredByPeriod = computed(() => {
+  const filteredProjects = {}
+
+  data.value.rows.forEach(session => {
+    if(session.project_id in filteredProjects) {
+      return
+    }
+    else {
+      filteredProjects[session.project_id] = session.project_name
+    }
+  })
+
+  return filteredProjects
+})
 
 </script>
 
@@ -178,7 +202,10 @@ async function closeSession() {
     <option value="april-may">Апрель-Май</option>
   </select>
 
-  <FilterOfProjects v-model="filterProjectId" />
+  <FilterOfProjects 
+    v-model="filterProjectId" 
+    :projects="projectsFilteredByPeriod"
+  />
 
   <!-- {{ dateFrom }} -->
   <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->

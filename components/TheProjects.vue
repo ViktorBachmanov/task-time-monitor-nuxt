@@ -5,7 +5,7 @@ const { data, refresh } = await useFetch('/api/projects')
 
 const currentProjectId = useState('currentProjectId', () => 1)
 
-const projects = useState('projects', () => data)
+// const projects = useState('projects', () => data)
 
 // const playing = useState('playing')
 const playing = useState('currentSessionId')

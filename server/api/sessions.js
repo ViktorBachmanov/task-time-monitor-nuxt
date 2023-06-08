@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
-  const projectId = query["project-id"];
+  // const projectId = query["project-id"];
 
   let dateFrom, dateTo;
 
@@ -27,11 +27,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const [rows] = await promisePool.execute(
-    `SELECT sessions.id AS id, created_at, updated_at, seconds, task_id, tasks.name AS task_name, projects.name AS project_name
+    `SELECT sessions.id AS id, created_at, updated_at, seconds, task_id, tasks.name AS task_name, projects.name AS project_name, projects.id AS project_id
      FROM sessions, tasks, projects 
      WHERE task_id = tasks.id 
      AND tasks.project_id = projects.id
-     ${projectId !== "all" ? "AND projects.id = " + projectId : ""}
      AND created_at BETWEEN ? AND ?
      ORDER BY sessions.id DESC`,
     [dateFrom, dateTo]

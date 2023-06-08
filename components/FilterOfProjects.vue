@@ -1,7 +1,11 @@
 <script setup>
-const projects = useState('projects')
+// const projects = useState('projects')
+// defineProps({
+//   modelValue,
+//   projects: Array,
+// })
 
-defineProps(['modelValue'])
+defineProps(['modelValue', 'projects'])
 defineEmits(['update:modelValue'])
 
 </script>
@@ -14,11 +18,11 @@ defineEmits(['update:modelValue'])
   >
     <option value="all">Все</option>
     <option 
-      v-for="project of projects" 
-      :key="project.id"
-      :value="project.id"
+      v-for="(projectName, projectId) of projects" 
+      :key="projectId"
+      :value="projectId"
     >
-      {{ project.name }}
+      {{ projectName }}
     </option>
   </select>
 </template>
