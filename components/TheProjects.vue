@@ -5,10 +5,13 @@ const { data, refresh } = await useFetch('/api/projects')
 
 const currentProjectId = useState('currentProjectId', () => 1)
 
-const playing = useState('playing')
+// const projects = useState('projects', () => data)
+
+// const playing = useState('playing')
+const playing = useState('currentSessionId')
 
 const currentProjectName = computed(() => {
-  const currentProject = data.value.rows.find(row => row.id === currentProjectId.value)
+  const currentProject = data.value.find(row => row.id === currentProjectId.value)
 
   return currentProject.name;
 })
@@ -31,7 +34,7 @@ async function handleProjectAdded(projectId) {
     :class="{ disabled: playing }"
   >
     <option 
-      v-for="project in data.rows" 
+      v-for="project in data" 
       :key="project.id"
       :value="project.id"
     >

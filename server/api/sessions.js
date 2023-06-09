@@ -1,6 +1,8 @@
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
+  // const projectId = query["project-id"];
+
   let dateFrom, dateTo;
 
   switch (query["period"]) {
@@ -25,7 +27,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const [rows] = await promisePool.execute(
-    `SELECT sessions.id AS id, created_at, updated_at, seconds, task_id, tasks.name AS task_name, projects.name AS project_name
+    `SELECT sessions.id AS id, created_at, updated_at, seconds, task_id, tasks.name AS task_name, projects.name AS project_name, projects.id AS project_id
      FROM sessions, tasks, projects 
      WHERE task_id = tasks.id 
      AND tasks.project_id = projects.id
