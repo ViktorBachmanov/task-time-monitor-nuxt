@@ -64,11 +64,38 @@ function formatTime(session) {
         : new Date(session.updated_at).toLocaleTimeString()
       return `${new Date(session.created_at).toLocaleTimeString()} - 
         ${updatedAt} = 
-        ${new Date((session.seconds - 3 * 60 * 60) * 1000).toLocaleTimeString()}`
+        ${formatSeconds(session.seconds)}`
     case 'compact':
-      return new Date((session.seconds - 3 * 60 * 60) * 1000).toLocaleTimeString()
-      // return (session.seconds / 60 / 60).toFixed(2)
+      // return new Date((session.seconds - 3 * 60 * 60) * 1000).toLocaleTimeString()
+      return formatSeconds(session.seconds)
   }
+}
+
+function formatSeconds(totalSeconds) {
+  let seconds = parseInt(totalSeconds % 60)
+  if(seconds < 10) {
+    seconds = '0' + seconds
+  }
+
+  let minutes = parseInt(totalSeconds / 60)
+
+  let hours = 0
+  
+  if(minutes >= 60) {
+    hours = parseInt(minutes / 60)
+    minutes = minutes % 60
+  }
+
+  if(minutes < 10) {
+    minutes = '0' + minutes
+  }
+
+
+  if(hours < 10) {
+    hours = '0' + hours
+  }
+
+  return hours + ':' + minutes + ':' + seconds
 }
 
 function toggleRepresentation() {
@@ -231,7 +258,8 @@ const projectsFilteredByPeriod = computed(() => {
   
   <div style="margin: 0.5em;">
     <!-- Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }} -->
-    Итого: {{ (totalSeconds / 60 / 60).toFixed(2) }} часов
+    <!-- Итого: {{ (totalSeconds / 60 / 60).toFixed(2) }} часов -->
+    Итого: {{ formatSeconds(totalSeconds) }}
   </div>
 
 </template>
