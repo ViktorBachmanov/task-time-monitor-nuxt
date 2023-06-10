@@ -14,7 +14,7 @@ useHead({
     <!-- <FirstComponent /> -->
 
     <NuxtLayout>
-      <NuxtPage/>
+      <NuxtPage keepalive />
     </NuxtLayout>
     
   </div>
