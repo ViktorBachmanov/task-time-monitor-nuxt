@@ -16,6 +16,8 @@
       
     </p>
   </section>
+  
+  <div class="db-diagram"></div>
 </template>
 
 
@@ -37,5 +39,28 @@ h2 {
 
 p {
   text-indent: 1.5em;
+}
+
+.db-diagram {
+  width: 90%;
+  max-width: 700px;
+  aspect-ratio: 0.62;
+
+  margin: 0 auto;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('/pics/db-ver.png');
+
+  @media (min-width: 420px) {
+    aspect-ratio: 2;
+
+    background-image: url('/pics/db-hor.png');
+  }
+
+  .dark & {
+    filter: invert(0.85);
+  }
 }
 </style>
