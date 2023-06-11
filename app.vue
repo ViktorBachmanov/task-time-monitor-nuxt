@@ -54,4 +54,5 @@ select {
   background-color: $bg-dark-1;
   color: white;
 }
+
 </style>

@@ -17,3 +17,25 @@
     </p>
   </section>
 </template>
+
+
+<style lang="scss" scoped>
+h1 {
+  font-size: 125%;
+  margin: 1em;
+}
+
+section {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 110%;
+  margin: 0.5em;
+}
+
+p {
+  text-indent: 1.5em;
+}
+</style>

@@ -59,6 +59,7 @@ async function handleTaskAdded(taskId) {
     :payload="{ projectId }"
     @added="handleTaskAdded"
     success-message="Задача добавлена"
+    :class="{ disabled: playing }"
   />
  
 </template>

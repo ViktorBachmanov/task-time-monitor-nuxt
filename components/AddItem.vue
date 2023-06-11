@@ -43,7 +43,10 @@ async function handleAdding(itemName) {
 
 
 <template>
-  <button @click="isActive = true">
+  <button 
+    :class="$attrs.class"
+    @click="isActive = true"
+  >
     <PlusButtonIcon />
   </button>
 
@@ -58,3 +61,11 @@ async function handleAdding(itemName) {
 
   <TheNotification ref="notification" />
 </template>
+
+
+<style lang="scss" scoped>
+button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+</style>

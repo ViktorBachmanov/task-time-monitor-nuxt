@@ -47,6 +47,7 @@ async function handleProjectAdded(projectId) {
     url="/api/projects"
     @added="handleProjectAdded"
     success-message="Проект добавлен"
+    :class="{ disabled: playing }"
   />
 
   <Suspense>

@@ -1,9 +1,9 @@
 <template>
   <Suspense>
-      <TheProjects />
-    </Suspense>
+    <TheProjects />
+  </Suspense>
 
-    <Suspense>
-      <TheSessions />
-    </Suspense>
+  <Suspense>
+    <TheSessions />
+  </Suspense>
 </template>
