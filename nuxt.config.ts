@@ -27,4 +27,14 @@ export default defineNuxtConfig({
   components: ["~/components/icons", "~/components"],
 
   modules: ["@invictus.codes/nuxt-vuetify"],
+
+  vuetify: {
+    /* vuetify options */
+    vuetifyOptions: {
+      // @TODO: list all vuetify options
+      theme: {
+        defaultTheme: "dark",
+      },
+    },
+  },
 });

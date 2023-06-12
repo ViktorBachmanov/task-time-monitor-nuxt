@@ -24,9 +24,9 @@
 
   background-color: $bg-light-1;
 
-  .dark & {
-    background-color: $bg-dark-1;
-  }
+  // .dark & {
+  //   background-color: $bg-dark-1;
+  // }
 }
 
 nav {

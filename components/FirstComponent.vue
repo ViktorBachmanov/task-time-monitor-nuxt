@@ -24,10 +24,10 @@ useHead({
 #first_component {
   margin: 10em;
 
-  .dark & {
-    background-color: $bg-dark-0;
-    color: silver;
-  }
+  // .dark & {
+  //   background-color: $bg-dark-0;
+  //   color: silver;
+  // }
 }
 
 

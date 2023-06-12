@@ -59,8 +59,8 @@ p {
     background-image: url('/pics/db-hor.png');
   }
 
-  .dark & {
-    filter: invert(0.85);
-  }
+  // .dark & {
+  //   filter: invert(0.85);
+  // }
 }
 </style>
