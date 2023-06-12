@@ -34,24 +34,16 @@ async function handleTaskAdded(taskId) {
 
 
 <template>
-  <div>
-    Задачи
-  </div>
-
-  <!-- <input v-model="newTaskName"> -->
-
-  <select 
+  <v-select
     v-model="currentTaskId"
-    :class="{ disabled: playing }"
-  >
-    <option 
-      v-for="task in data.rows" 
-      :key="task.id"
-      :value="task.id"
-    >
-      {{ task.name }}
-    </option>
-  </select>
+    label="Задача"
+    :items="data.rows"
+    item-title="name"
+    item-value="id"
+    variant="outlined"
+    style="width: 20em; max-width: 100%;"
+    :disabled="playing === null ? false : true"
+  ></v-select>
 
   <AddItem 
     :header="`Добавить задачу в проект ${projectName}`"

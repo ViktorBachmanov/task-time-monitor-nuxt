@@ -25,22 +25,16 @@ async function handleProjectAdded(projectId) {
 
 
 <template>
-  <div>
-    Проекты
-  </div>
-
-  <select 
+  <v-select
     v-model="currentProjectId"
-    :class="{ disabled: playing }"
-  >
-    <option 
-      v-for="project in data" 
-      :key="project.id"
-      :value="project.id"
-    >
-      {{ project.name }}
-    </option>
-  </select>
+    label="Проект"
+    :items="data"
+    item-title="name"
+    item-value="id"
+    variant="outlined"
+    style="width: 20em; max-width: 100%;"
+    :disabled="playing === null ? false : true"
+  ></v-select>
 
   <AddItem 
     header="Добавить проект"
