@@ -48,7 +48,7 @@ const compact = computed(() => {
   return collapsedArray
 })
 
-const representation = ref('common')  // common | compact
+const representation = ref('compact')  // common | compact
 
 const sessions = computed(() => {
   return representation.value === 'common'
