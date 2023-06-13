@@ -1,15 +1,15 @@
-<template setup>
-  <!-- <div id="app-bar"> -->
-  <v-sheet id="app-bar">
-    <!-- <nav>
-      <NuxtLink to="/">
-        Home
-      </NuxtLink>
-      <NuxtLink to="/about">
-        About
-      </NuxtLink>
-    </nav> -->
+<script setup>
+import { useTheme } from 'vuetify'
 
+const theme = useTheme()
+
+const toggleTheme = () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+
+</script>
+
+
+<template setup>
+  <v-sheet id="app-bar">
     <v-btn-toggle
       rounded="0"
       color="deep-purple-accent-3"
@@ -24,8 +24,14 @@
       </v-btn>
     </v-btn-toggle>
 
-    <BrightnessIcon />
-  <!-- </div> -->
+    <v-btn 
+        @click="toggleTheme"
+        icon
+        rounded="lg"
+        variant="tonal"
+      >
+      <v-icon icon="mdi-theme-light-dark" size="x-large"></v-icon>
+    </v-btn>
   </v-sheet>
 </template>
 
