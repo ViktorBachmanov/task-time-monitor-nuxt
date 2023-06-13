@@ -1,10 +1,11 @@
 <script setup>
 
 const props = defineProps({
-  timer: String
+  timer: String,
+  currentSessionId: Number | null,
 })
 
-const playing = useState('currentSessionId')
+// const playing = useState('currentSessionId')
 
 const currentTaskId = useState('currentTaskId')
 
@@ -20,7 +21,7 @@ async function stop() {
 }
 
 const playDisabled = () => {
-  return playing.value !== null || currentTaskId.value === undefined
+  return props.currentSessionId !== null || currentTaskId.value === undefined
 }
 
 </script>
@@ -41,7 +42,7 @@ const playDisabled = () => {
 
       <v-btn 
         @click="stop"
-        :disabled="playing === null ? true : false"
+        :disabled="currentSessionId === null ? true : false"
         icon
         rounded="lg"
         variant="tonal"

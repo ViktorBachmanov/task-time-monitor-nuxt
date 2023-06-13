@@ -207,6 +207,7 @@ const projectsFilteredByPeriod = computed(() => {
 <template>
   <ThePlayer
     :timer="timer"
+    :currentSessionId="currentSessionId"
     @play="createSession"
     @stop="closeSession"
   />
