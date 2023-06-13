@@ -187,14 +187,18 @@ async function closeSession() {
 // })
 
 const projectsFilteredByPeriod = computed(() => {
-  const filteredProjects = {}
+  const filteredProjects = [{ id: 'all', name: 'Все' }]
 
   data.value.rows.forEach(session => {
-    if(session.project_id in filteredProjects) {
+    if(filteredProjects.find(project => project.id === session.project_id)) {
       return
     }
     else {
-      filteredProjects[session.project_id] = session.project_name
+      // filteredProjects[session.project_id] = session.project_name
+      filteredProjects.push({ 
+        id: session.project_id,
+        name: session.project_name
+      })
     }
   })
 
@@ -230,10 +234,15 @@ const projectsFilteredByPeriod = computed(() => {
     style="width: 8em;"
   ></v-select>
 
-  <FilterOfProjects 
-    v-model="filterProjectId" 
-    :projects="projectsFilteredByPeriod"
-  />
+  <v-select
+    v-model="filterProjectId"
+    label="Фильтр проектов"
+    :items="projectsFilteredByPeriod"
+    item-title="name"
+    item-value="id"
+    variant="outlined"
+    style="width: 25em; max-width: 100%;"
+  ></v-select>
 
   <!-- {{ dateFrom }} -->
   <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->

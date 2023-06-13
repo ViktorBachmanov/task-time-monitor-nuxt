@@ -20,9 +20,9 @@ async function stop() {
   emit('stop')
 }
 
-const playDisabled = () => {
-  return props.currentSessionId !== null || currentTaskId.value === undefined
-}
+const playDisabled = computed(() => {
+  return (props.currentSessionId !== null) || (currentTaskId.value === undefined)
+})
 
 </script>
 
@@ -32,7 +32,7 @@ const playDisabled = () => {
     <div class="player__buttons">
       <v-btn 
         @click="play"
-        :disabled="playDisabled()"
+        :disabled="playDisabled"
         icon
         rounded="lg"
         variant="tonal"
