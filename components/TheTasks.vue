@@ -34,7 +34,7 @@ async function handleTaskAdded(taskId) {
 
 
 <template>
-  <div style="display: flex; align-items: center; width: 25em; max-width: 100%;">
+  <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
     <AddItem 
       :header="`Добавить задачу в проект ${projectName}`"
       url="/api/tasks"

@@ -54,8 +54,11 @@ async function handleAdding(itemName) {
   <v-btn 
     @click="isActive = true"
     :disabled="disabled"
+    icon
+    rounded="lg"
+    variant="tonal"
   >
-    <v-icon icon="mdi-plus-box-outline" size="x-large"></v-icon>
+    <v-icon icon="mdi-plus" size="x-large"></v-icon>
   </v-btn>
 
   <AddItemDialog 
