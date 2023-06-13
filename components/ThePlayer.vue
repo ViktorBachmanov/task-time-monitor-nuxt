@@ -19,9 +19,9 @@ async function stop() {
   emit('stop')
 }
 
-const playDisabled = computed(() => {
+const playDisabled = () => {
   return playing.value !== null || currentTaskId.value === undefined
-})
+}
 
 </script>
 
@@ -31,7 +31,7 @@ const playDisabled = computed(() => {
     <div class="player__buttons">
       <v-btn 
         @click="play"
-        :disabled="playDisabled"
+        :disabled="playDisabled()"
         icon
         rounded="lg"
         variant="tonal"
