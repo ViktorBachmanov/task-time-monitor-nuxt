@@ -215,7 +215,7 @@ const projectsFilteredByPeriod = computed(() => {
     Сеансы
   </div>
 
-  <button @click="toggleRepresentation">Rep</button>
+  <!-- <button @click="toggleRepresentation">Rep</button> -->
 
   <br/>
 
@@ -241,7 +241,19 @@ const projectsFilteredByPeriod = computed(() => {
     <thead>
       <tr>
         <th width="1em">Проект</th>
-        <th width="1em">Задача</th>
+        <th width="1em">
+          Задача
+          <v-btn 
+            @click="toggleRepresentation"
+            icon
+            rounded="lg"
+            variant="tonal"
+            style="margin-left: 0.5em"
+          >
+            <v-icon icon="mdi-arrow-expand" size="large" v-if="representation === 'compact'"></v-icon>
+            <v-icon icon="mdi-arrow-collapse" size="large" v-else></v-icon>
+          </v-btn>
+        </th>
         <th width="1em">Время</th>
       </tr>
     </thead>
