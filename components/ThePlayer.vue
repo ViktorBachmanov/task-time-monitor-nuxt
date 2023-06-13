@@ -1,57 +1,20 @@
 <script setup>
 
-// const props = defineProps({
-//   currentSessionId: Number
-// })
 const props = defineProps({
   timer: String
 })
 
-// const playing = useState('playing', () => false)
 const playing = useState('currentSessionId')
 
-
-// const timer = ref(0)
-
-// const emit = defineEmits(['play', 'update', 'stop'])
 const emit = defineEmits(['play', 'stop'])
 
 
 function play() {
-  // playing.value = true;
-
   emit('play')
 }
 
-// let intervalId
-
-// watch(() => props.currentSessionId, () => {
-//   console.log('Start interval')
-
-//   const startDate = Date.now()
-
-//   let count = 0
-
-//   intervalId = setInterval(() => {
-//     const time = Date.now() - startDate
-
-//     timer.value = new Date(time - 3 * 60 * 60 * 1000).toLocaleTimeString()
-
-//     if(++count % 60 === 0) {
-//       emit('update')
-//     }
-//   }, 1000)
-// })
-
-
-// const elem = ref(null)
-
 async function stop() {
-  // playing.value = false;
-
   emit('stop')
-
-  // clearInterval(intervalId)
 }
 
 </script>
@@ -59,23 +22,31 @@ async function stop() {
 
 <template>
   <div id="player">
-    <button 
-      @click="play"
-      :class="{ disabled: playing }"
-    >
-      <PlayButtonIcon />
-    </button>
+    <div class="player__buttons">
+      <v-btn 
+        @click="play"
+        :disabled="playing === null ? false : true"
+        icon
+        rounded="lg"
+        variant="tonal"
+      >
+        <v-icon icon="mdi-play" size="x-large"></v-icon>
+      </v-btn>
 
-    <button 
-      @click="stop"
-      :class="{ disabled: !playing }"
-    >
-      <StopButtonIcon />
-    </button>
+      <v-btn 
+        @click="stop"
+        :disabled="playing === null ? true : false"
+        icon
+        rounded="lg"
+        variant="tonal"
+      >
+        <v-icon icon="mdi-stop" size="x-large"></v-icon>
+      </v-btn>
+    </div>
 
-    <pre>
+    <div>
       {{ timer }}
-    </pre>
+    </div>
   </div>
 </template>
 
@@ -83,15 +54,15 @@ async function stop() {
 <style lang="scss" scoped>
 #player {
   margin: 3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1em;
+}
 
-  button {
-    margin: 0.5em;
-
-    &.disabled {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-  }
+.player__buttons {
+  display: flex;
+  column-gap: 0.5em;
 }
 </style>
 
