@@ -1,3 +1,11 @@
+<script setup>
+import { useTheme } from 'vuetify'
+
+const theme = useTheme()
+
+</script>
+
+
 <template>
   <h1>Приложение Task-Time-Monitor</h1>
   <section>
@@ -17,7 +25,11 @@
     </p>
   </section>
   
-  <div class="db-diagram"></div>
+  <div 
+    class="db-diagram"
+    :class="{ dark: theme.global.current.value.dark }"
+  >
+  </div>
 </template>
 
 
@@ -62,5 +74,9 @@ p {
   // .dark & {
   //   filter: invert(0.85);
   // }
+
+  &.dark {
+    filter: invert(0.85);
+  }
 }
 </style>

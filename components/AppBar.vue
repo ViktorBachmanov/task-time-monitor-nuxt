@@ -45,10 +45,10 @@
   // }
 }
 
-nav {
-  display: flex;
-  column-gap: 0.5em;
-}
+// nav {
+//   display: flex;
+//   column-gap: 0.5em;
+// }
 
 // a {
 //   display: inline-block;

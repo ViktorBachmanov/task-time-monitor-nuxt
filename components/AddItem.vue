@@ -7,7 +7,8 @@ const props = defineProps({
     type: Object,
     default: null
   },
-  successMessage: String
+  successMessage: String,
+  disabled: Boolean,
 })
 
 const emit = defineEmits(['added'])
@@ -43,12 +44,19 @@ async function handleAdding(itemName) {
 
 
 <template>
-  <button 
+  <!-- <button 
     :class="$attrs.class"
     @click="isActive = true"
   >
     <PlusButtonIcon />
-  </button>
+  </button> -->
+
+  <v-btn 
+    @click="isActive = true"
+    :disabled="disabled"
+  >
+    <v-icon icon="mdi-plus-box-outline" size="x-large"></v-icon>
+  </v-btn>
 
   <AddItemDialog 
     v-if="isActive"

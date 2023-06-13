@@ -34,24 +34,25 @@ async function handleTaskAdded(taskId) {
 
 
 <template>
-  <v-select
-    v-model="currentTaskId"
-    label="Задача"
-    :items="data.rows"
-    item-title="name"
-    item-value="id"
-    variant="outlined"
-    style="width: 20em; max-width: 100%;"
-    :disabled="playing === null ? false : true"
-  ></v-select>
+  <div style="display: flex; align-items: center; width: 25em; max-width: 100%;">
+    <AddItem 
+      :header="`Добавить задачу в проект ${projectName}`"
+      url="/api/tasks"
+      :payload="{ projectId }"
+      @added="handleTaskAdded"
+      success-message="Задача добавлена"
+      :disabled="playing === null ? false : true"
+    />
 
-  <AddItem 
-    :header="`Добавить задачу в проект ${projectName}`"
-    url="/api/tasks"
-    :payload="{ projectId }"
-    @added="handleTaskAdded"
-    success-message="Задача добавлена"
-    :class="{ disabled: playing }"
-  />
- 
+    <v-select
+      v-model="currentTaskId"
+      label="Задача"
+      :items="data.rows"
+      item-title="name"
+      item-value="id"
+      variant="outlined"
+      :disabled="playing === null ? false : true"
+    ></v-select> 
+  </div>
+  
 </template>

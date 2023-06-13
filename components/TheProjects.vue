@@ -25,30 +25,32 @@ async function handleProjectAdded(projectId) {
 
 
 <template>
-  <v-select
-    v-model="currentProjectId"
-    label="Проект"
-    :items="data"
-    item-title="name"
-    item-value="id"
-    variant="outlined"
-    style="width: 20em; max-width: 100%;"
-    :disabled="playing === null ? false : true"
-  ></v-select>
-
-  <AddItem 
-    header="Добавить проект"
-    url="/api/projects"
-    @added="handleProjectAdded"
-    success-message="Проект добавлен"
-    :class="{ disabled: playing }"
-  />
-
-  <Suspense>
-    <TheTasks 
-      :projectId="currentProjectId"
-      :projectName="currentProjectName"
+  <div style="display: flex; align-items: center; width: 25em; max-width: 100%;">
+    <AddItem 
+      header="Добавить проект"
+      url="/api/projects"
+      @added="handleProjectAdded"
+      success-message="Проект добавлен"
+      :disabled="playing === null ? false : true"
     />
-  </Suspense>
+
+    <v-select
+      v-model="currentProjectId"
+      label="Проект"
+      :items="data"
+      item-title="name"
+      item-value="id"
+      variant="outlined"
+      :disabled="playing === null ? false : true"
+    ></v-select>
+  </div>
+  
+
+    <Suspense>
+      <TheTasks 
+        :projectId="currentProjectId"
+        :projectName="currentProjectName"
+      />
+    </Suspense>
 
 </template>
