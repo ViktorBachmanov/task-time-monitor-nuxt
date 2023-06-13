@@ -126,7 +126,7 @@ async function createSession() {
 
 let intervalId
 
-const timer = ref('')
+const timer = ref('00:00:00')
 
 function startTimer() {
   const startDate = Date.now()
@@ -209,88 +209,106 @@ const projectsFilteredByPeriod = computed(() => {
 
 
 <template>
-  <ThePlayer
-    :timer="timer"
-    :currentSessionId="currentSessionId"
-    @play="createSession"
-    @stop="closeSession"
-  />
+  <div id="sessions-section">
+    <ThePlayer
+      :timer="timer"
+      :currentSessionId="currentSessionId"
+      @play="createSession"
+      @stop="closeSession"
+    />
 
-  <div>
-    Сеансы
+    <header>
+      Сеансы
+    </header>
+
+    <!-- <button @click="toggleRepresentation">Rep</button> -->
+
+    <v-select
+      v-model="period"
+      label="Период"
+      :items="[{value: 'today', title: 'Сегодня'}, {value: 'april', title: 'Апрель'}, {value: 'may', title: 'Май'}]"
+      item-title="title"
+      item-value="value"
+      variant="outlined"
+      style="width: 8em;"
+    ></v-select>
+
+    <v-select
+      v-model="filterProjectId"
+      label="Фильтр проектов"
+      :items="projectsFilteredByPeriod"
+      item-title="name"
+      item-value="id"
+      variant="outlined"
+      style="width: 25em; max-width: 100%;"
+    ></v-select>
+
+    <!-- {{ dateFrom }} -->
+    <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->
+
+    <div id="table-wrapper">
+      <table width="1em">
+        <thead>
+          <tr>
+            <th width="1em">Проект</th>
+            <th width="1em">
+              Задача
+              <v-btn 
+                @click="toggleRepresentation"
+                icon
+                rounded="lg"
+                variant="tonal"
+                style="margin-left: 0.5em"
+              >
+                <v-icon icon="mdi-arrow-expand" size="large" v-if="representation === 'compact'"></v-icon>
+                <v-icon icon="mdi-arrow-collapse" size="large" v-else></v-icon>
+              </v-btn>
+            </th>
+            <th width="1em">Время</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="session in sessions" :key="session.id">
+            <td style="white-space: nowrap;">{{ session.project_name }}</td>
+            <td style="white-space: nowrap;">{{ session.task_name }}</td>
+            <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    
+    <div style="margin: 0.5em;">
+      <!-- Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }} -->
+      <!-- Итого: {{ (totalSeconds / 60 / 60).toFixed(2) }} часов -->
+      Итого: {{ formatSeconds(totalSeconds) }}
+    </div>
   </div>
-
-  <!-- <button @click="toggleRepresentation">Rep</button> -->
-
-  <br/>
-
-  <v-select
-    v-model="period"
-    label="Период"
-    :items="[{value: 'today', title: 'Сегодня'}, {value: 'april', title: 'Апрель'}, {value: 'may', title: 'Май'}]"
-    item-title="title"
-    item-value="value"
-    variant="outlined"
-    style="width: 8em;"
-  ></v-select>
-
-  <v-select
-    v-model="filterProjectId"
-    label="Фильтр проектов"
-    :items="projectsFilteredByPeriod"
-    item-title="name"
-    item-value="id"
-    variant="outlined"
-    style="width: 25em; max-width: 100%;"
-  ></v-select>
-
-  <!-- {{ dateFrom }} -->
-  <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->
-
-  <table width="1em">
-    <thead>
-      <tr>
-        <th width="1em">Проект</th>
-        <th width="1em">
-          Задача
-          <v-btn 
-            @click="toggleRepresentation"
-            icon
-            rounded="lg"
-            variant="tonal"
-            style="margin-left: 0.5em"
-          >
-            <v-icon icon="mdi-arrow-expand" size="large" v-if="representation === 'compact'"></v-icon>
-            <v-icon icon="mdi-arrow-collapse" size="large" v-else></v-icon>
-          </v-btn>
-        </th>
-        <th width="1em">Время</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr v-for="session in sessions" :key="session.id">
-        <td style="white-space: nowrap;">{{ session.project_name }}</td>
-        <td style="white-space: nowrap;">{{ session.task_name }}</td>
-        <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  
-  <div style="margin: 0.5em;">
-    <!-- Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }} -->
-    <!-- Итого: {{ (totalSeconds / 60 / 60).toFixed(2) }} часов -->
-    Итого: {{ formatSeconds(totalSeconds) }}
-  </div>
-
 </template>
 
 
 <style lang="scss" scoped>
+#sessions-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  header {
+    margin-bottom: 2em;
+    font-size: 120%;
+  }
+}
+
+#table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 table {
   margin: 1em;
 }
+
 th, td {
   border-collapse: collapse;
   border: 0.5px solid gray;
