@@ -6,6 +6,8 @@ const props = defineProps({
 
 const playing = useState('currentSessionId')
 
+const currentTaskId = useState('currentTaskId')
+
 const emit = defineEmits(['play', 'stop'])
 
 
@@ -17,6 +19,10 @@ async function stop() {
   emit('stop')
 }
 
+const playDisabled = computed(() => {
+  return playing.value !== null || currentTaskId.value === undefined
+})
+
 </script>
 
 
@@ -25,7 +31,7 @@ async function stop() {
     <div class="player__buttons">
       <v-btn 
         @click="play"
-        :disabled="playing === null ? false : true"
+        :disabled="playDisabled"
         icon
         rounded="lg"
         variant="tonal"
