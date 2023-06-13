@@ -50,7 +50,7 @@ const playDisabled = computed(() => {
       </v-btn>
     </div>
 
-    <div>
+    <div class="clock">
       {{ timer }}
     </div>
   </div>
@@ -69,6 +69,11 @@ const playDisabled = computed(() => {
 .player__buttons {
   display: flex;
   column-gap: 0.5em;
+}
+
+.clock {
+  font-size: 150%;
+  font-family: 'Roboto Mono', monospace;
 }
 </style>
 
