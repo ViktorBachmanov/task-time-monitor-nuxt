@@ -44,13 +44,6 @@ async function handleAdding(itemName) {
 
 
 <template>
-  <!-- <button 
-    :class="$attrs.class"
-    @click="isActive = true"
-  >
-    <PlusButtonIcon />
-  </button> -->
-
   <v-btn 
     @click="isActive = true"
     :disabled="disabled"

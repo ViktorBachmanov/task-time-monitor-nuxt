@@ -1,8 +1,6 @@
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
-  // const projectId = query["project-id"];
-
   let dateFrom, dateTo;
 
   switch (query["period"]) {

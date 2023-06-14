@@ -1,6 +1,4 @@
 <script setup>
-
-// const currentSessionId = ref(null)
 const currentSessionId = useState('currentSessionId', () => null)
 
 const currentTaskId = useState('currentTaskId')
@@ -10,7 +8,6 @@ const period = ref('today')
 const filterProjectId = ref('all')
 
 
-// const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}&project-id=${filterProjectId.value}`)
 const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}`)
 
 const sessionsFilteredByProject = computed(() => {
@@ -66,7 +63,6 @@ function formatTime(session) {
         ${updatedAt} = 
         ${formatSeconds(session.seconds)}`
     case 'compact':
-      // return new Date((session.seconds - 3 * 60 * 60) * 1000).toLocaleTimeString()
       return formatSeconds(session.seconds)
   }
 }
@@ -180,10 +176,6 @@ async function closeSession() {
   refresh()
 }
 
-// const dateFrom = computed(() => {
-//   return new Date().toISOString().split('.')[0].replace('T', ' ')
-// })
-
 const projectsFilteredByPeriod = computed(() => {
   const filteredProjects = [{ id: 'all', name: 'Все' }]
 
@@ -192,7 +184,6 @@ const projectsFilteredByPeriod = computed(() => {
       return
     }
     else {
-      // filteredProjects[session.project_id] = session.project_name
       filteredProjects.push({ 
         id: session.project_id,
         name: session.project_name
@@ -219,8 +210,6 @@ const projectsFilteredByPeriod = computed(() => {
       Сеансы
     </header>
 
-    <!-- <button @click="toggleRepresentation">Rep</button> -->
-
     <v-select
       v-model="period"
       label="Период"
@@ -241,10 +230,7 @@ const projectsFilteredByPeriod = computed(() => {
       style="width: 25em; max-width: 100%;"
     ></v-select>
   </div>
-
-    <!-- {{ dateFrom }} -->
-    <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->
-  
+ 
   <div style="margin: 1em auto;">
     <div id="table-wrapper">
       <table style="margin: 0 auto;">
@@ -284,10 +270,6 @@ const projectsFilteredByPeriod = computed(() => {
       </table>
     </div>
 
-    
-    <!-- <div style="margin: 1em 0.5em; text-align: right;">
-      Итого: {{ formatSeconds(totalSeconds) }}
-    </div> -->
   </div>
   
 </template>

@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     },
   },
 
-  components: ["~/components/icons", "~/components"],
+  components: ["~/components"],
 
   modules: ["@invictus.codes/nuxt-vuetify"],
 

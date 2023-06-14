@@ -4,23 +4,17 @@ const props = defineProps({
   projectName: String,
 })
 
-// const fetchResult = computed(async () => {
-//   return await useFetch(`/api/tasks?project-id=${props.projectId}`)
-// })
 
 const { data, refresh } = await useFetch(() => `/api/tasks?project-id=${props.projectId}`)
 
 watch(() => props.projectId, async () => {
-  // console.log('project id changed')
   await refresh();
 
   currentTaskId.value = data.value.rows[0]?.id;
 })
 
-// const currentTaskId = useState('currentTaskId', () => 1)
 const currentTaskId = useTaskId()
 
-// const playing = useState('playing')
 const playing = useState('currentSessionId')
 
 

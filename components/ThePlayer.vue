@@ -5,9 +5,6 @@ const props = defineProps({
   currentSessionId: Number | null,
 })
 
-// const playing = useState('currentSessionId')
-
-// const currentTaskId = useState('currentTaskId')
 const currentTaskId = useTaskId()
 
 
@@ -21,12 +18,6 @@ function play() {
 async function stop() {
   emit('stop')
 }
-
-// const playDisabled = computed(() => {
-//   // return (props.currentSessionId !== null) || (currentTaskId.value === undefined)
-//   return (currentTaskId.value === undefined)
-//   // return (props.currentSessionId !== null)
-// })
 
 </script>
 

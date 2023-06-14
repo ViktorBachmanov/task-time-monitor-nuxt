@@ -5,9 +5,6 @@ const { data, refresh } = await useFetch('/api/projects')
 
 const currentProjectId = useState('currentProjectId', () => 1)
 
-// const projects = useState('projects', () => data)
-
-// const playing = useState('playing')
 const playing = useState('currentSessionId')
 
 const currentProjectName = computed(() => {
@@ -25,7 +22,6 @@ async function handleProjectAdded(projectId) {
 
 
 <template>
-  <!-- <div style="display: inline-block;"> -->
     <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
       <AddItem 
         header="Добавить проект"
@@ -52,6 +48,4 @@ async function handleProjectAdded(projectId) {
         :projectName="currentProjectName"
       />
     </Suspense>
-  <!-- </div> -->
-
 </template>
