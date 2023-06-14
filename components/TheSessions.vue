@@ -247,7 +247,7 @@ const projectsFilteredByPeriod = computed(() => {
     <!-- {{ dateFrom }} -->
     <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->
   
-  <div style="margin: 1em;">
+  <div style="margin: 1em auto;">
     <div id="table-wrapper">
       <table style="margin: 0 auto;">
         <thead>
