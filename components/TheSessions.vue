@@ -209,7 +209,7 @@ const projectsFilteredByPeriod = computed(() => {
 
 
 <template>
-  <div id="sessions-section">
+  <div id="sessions-controls">
     <ThePlayer
       :timer="timer"
       :currentSessionId="currentSessionId"
@@ -242,26 +242,29 @@ const projectsFilteredByPeriod = computed(() => {
       variant="outlined"
       style="width: 25em; max-width: 100%;"
     ></v-select>
+  </div>
 
     <!-- {{ dateFrom }} -->
     <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->
-
+  
+  <div style="margin: 1em;">
     <div id="table-wrapper">
-      <table width="1em">
+      <table style="margin: 0 auto;">
         <thead>
           <tr>
             <th width="1em">Проект</th>
-            <th width="1em">
+            <th width="1em" style="white-space: nowrap;">
               Задача
               <v-btn 
                 @click="toggleRepresentation"
                 icon
-                rounded="lg"
+                size="small"
+                rounded="sm"
                 variant="tonal"
                 style="margin-left: 0.5em"
               >
-                <v-icon icon="mdi-arrow-expand" size="large" v-if="representation === 'compact'"></v-icon>
-                <v-icon icon="mdi-arrow-collapse" size="large" v-else></v-icon>
+                <v-icon icon="mdi-arrow-expand" v-if="representation === 'compact'"></v-icon>
+                <v-icon icon="mdi-arrow-collapse" v-else></v-icon>
               </v-btn>
             </th>
             <th width="1em">Время</th>
@@ -279,17 +282,19 @@ const projectsFilteredByPeriod = computed(() => {
     </div>
 
     
-    <div style="margin: 0.5em;">
+    <div style="margin: 1em 0.5em; text-align: right;">
       <!-- Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }} -->
       <!-- Итого: {{ (totalSeconds / 60 / 60).toFixed(2) }} часов -->
       Итого: {{ formatSeconds(totalSeconds) }}
     </div>
   </div>
+  
 </template>
 
 
 <style lang="scss" scoped>
-#sessions-section {
+#sessions-controls {
+  page-break-inside: avoid;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -305,9 +310,6 @@ const projectsFilteredByPeriod = computed(() => {
   overflow-x: auto;
 }
 
-table {
-  margin: 1em;
-}
 
 th, td {
   border-collapse: collapse;

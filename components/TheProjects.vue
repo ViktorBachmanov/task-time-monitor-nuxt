@@ -25,26 +25,26 @@ async function handleProjectAdded(projectId) {
 
 
 <template>
-  <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
-    <AddItem 
-      header="Добавить проект"
-      url="/api/projects"
-      @added="handleProjectAdded"
-      success-message="Проект добавлен"
-      :disabled="playing === null ? false : true"
-    />
+  <!-- <div style="display: inline-block;"> -->
+    <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
+      <AddItem 
+        header="Добавить проект"
+        url="/api/projects"
+        @added="handleProjectAdded"
+        success-message="Проект добавлен"
+        :disabled="playing === null ? false : true"
+      />
 
-    <v-select
-      v-model="currentProjectId"
-      label="Проект"
-      :items="data"
-      item-title="name"
-      item-value="id"
-      variant="outlined"
-      :disabled="playing === null ? false : true"
-    ></v-select>
-  </div>
-  
+      <v-select
+        v-model="currentProjectId"
+        label="Проект"
+        :items="data"
+        item-title="name"
+        item-value="id"
+        variant="outlined"
+        :disabled="playing === null ? false : true"
+      ></v-select>
+    </div>  
 
     <Suspense>
       <TheTasks 
@@ -52,5 +52,6 @@ async function handleProjectAdded(projectId) {
         :projectName="currentProjectName"
       />
     </Suspense>
+  <!-- </div> -->
 
 </template>
