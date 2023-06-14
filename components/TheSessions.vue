@@ -145,8 +145,6 @@ function startTimer() {
       updateSession()
 
       lastUpdate = Date.now()
-
-      console.log('has been updated at: ', new Date().toLocaleTimeString())
     }
 
     const currentSession = sessionsFilteredByProject.value.find(session => session.id === currentSessionId.value)
@@ -277,16 +275,19 @@ const projectsFilteredByPeriod = computed(() => {
             <td style="white-space: nowrap;">{{ session.task_name }}</td>
             <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
           </tr>
+
+          <tr style="text-align: right;">
+            <td colspan="2">Итого: </td>
+            <td>{{ formatSeconds(totalSeconds) }}</td>
+          </tr>
         </tbody>
       </table>
     </div>
 
     
-    <div style="margin: 1em 0.5em; text-align: right;">
-      <!-- Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }} -->
-      <!-- Итого: {{ (totalSeconds / 60 / 60).toFixed(2) }} часов -->
+    <!-- <div style="margin: 1em 0.5em; text-align: right;">
       Итого: {{ formatSeconds(totalSeconds) }}
-    </div>
+    </div> -->
   </div>
   
 </template>
