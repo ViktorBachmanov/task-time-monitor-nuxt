@@ -17,7 +17,8 @@ watch(() => props.projectId, async () => {
   currentTaskId.value = data.value.rows[0]?.id;
 })
 
-const currentTaskId = useState('currentTaskId', () => 1)
+// const currentTaskId = useState('currentTaskId', () => 1)
+const currentTaskId = useTaskId()
 
 // const playing = useState('playing')
 const playing = useState('currentSessionId')
