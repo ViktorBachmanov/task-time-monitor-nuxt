@@ -25,6 +25,13 @@ const toggleTheme = () => theme.global.name.value = theme.global.current.value.d
     </v-btn-toggle>
 
     <v-btn 
+      href="https://github.com/ViktorBachmanov/task-time-monitor-nuxt" target="_blank"
+      icon
+    >
+      <v-icon icon="mdi-github" size="large"></v-icon>
+    </v-btn>
+
+    <v-btn 
         @click="toggleTheme"
         icon
         rounded="lg"
