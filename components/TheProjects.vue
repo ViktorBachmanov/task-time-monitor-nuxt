@@ -25,7 +25,6 @@ async function handleProjectAdded(projectId) {
     <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
       <AddItemV
         header="Добавить проект"
-        label="Проект"
         url="/api/projects"
         @added="handleProjectAdded"
         success-message="Проект добавлен"
