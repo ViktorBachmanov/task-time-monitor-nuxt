@@ -23,7 +23,7 @@ async function handleProjectAdded(projectId) {
 
 <template>
     <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
-      <AddItemV
+      <AddItem
         header="Добавить проект"
         url="/api/projects"
         @added="handleProjectAdded"

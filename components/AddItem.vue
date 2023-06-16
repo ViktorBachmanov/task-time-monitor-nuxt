@@ -13,12 +13,14 @@ const props = defineProps({
 
 const emit = defineEmits(['added'])
 
-const isActive = ref(false)
-const isPending = ref(false)
+const dialog = ref(false)
+const pending = ref(false)
 const notification = ref(null)
 
+
 async function handleAdding(itemName) {
-  isPending.value = true
+  
+  pending.value = true
 
   const { data, error } = await useFetch(props.url, {
     method: 'POST',
@@ -28,6 +30,7 @@ async function handleAdding(itemName) {
     }
   })
 
+
   if(data.value) {
     notification.value.success(props.successMessage)
     emit('added', data.value.createdItem.id)
@@ -36,40 +39,42 @@ async function handleAdding(itemName) {
     notification.value.error('Ошибка')
   }
 
+  pending.value = false
+  dialog.value = false
 
-  isActive.value = false
-  isPending.value = false
 }
 </script>
 
 
 <template>
   <v-btn 
-    @click="isActive = true"
     :disabled="disabled"
     icon
     rounded="lg"
     variant="tonal"
+    @click="dialog = true"
   >
     <v-icon icon="mdi-plus" size="x-large"></v-icon>
   </v-btn>
 
-  <AddItemDialog 
-    v-if="isActive"
-    @close="isActive = false"
-    @ok="handleAdding"
-    :isPending="isPending"
+  <v-dialog
+    v-model="dialog"
+    width="auto"
   >
-    <template v-slot:header>{{ header }}</template>
-  </AddItemDialog>
+    <v-card 
+      style="padding: 0 0.5em 0.5em"
+      :title="header"
+    >
+      <AddItemForm 
+        :loading="pending"
+        @add-item="handleAdding"
+        @cancel="dialog = false"
+      />
+
+    </v-card>
+    
+  </v-dialog>
 
   <TheNotification ref="notification" />
 </template>
 
-
-<style lang="scss" scoped>
-button.disabled {
-  opacity: 0.5;
-  pointer-events: none;
-}
-</style>

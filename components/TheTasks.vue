@@ -30,16 +30,7 @@ async function handleTaskAdded(taskId) {
 
 <template>
   <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
-    <!-- <AddItem 
-      :header="`Добавить задачу в проект ${projectName}`"
-      url="/api/tasks"
-      :payload="{ projectId }"
-      @added="handleTaskAdded"
-      success-message="Задача добавлена"
-      :disabled="playing === null ? false : true"
-    /> -->
-
-    <AddItemV
+    <AddItem
       :header="`Добавить задачу в проект ${projectName}`"
       url="/api/tasks"
       :payload="{ projectId }"
