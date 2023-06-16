@@ -22,6 +22,9 @@ async function handleProjectAdded(projectId) {
 
 
 <template>
+  
+  <div style="grid-column-start: 1; display: flex; flex-direction: column; align-items: center;">
+
     <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
       <AddItem
         header="Добавить проект"
@@ -48,4 +51,7 @@ async function handleProjectAdded(projectId) {
         :projectName="currentProjectName"
       />
     </Suspense>
+    
+  </div>
+
 </template>

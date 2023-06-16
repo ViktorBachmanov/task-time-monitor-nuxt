@@ -230,57 +230,63 @@ const projectsFilteredByPeriod = computed(() => {
       style="width: 25em; max-width: 100%;"
     ></v-select>
   </div>
+
  
-  <div style="margin: 1em auto;">
-    <div id="table-wrapper">
-      <table style="margin: 0 auto;">
-        <thead>
-          <tr>
-            <th width="1em">Проект</th>
-            <th width="1em" style="white-space: nowrap;">
-              Задача
-              <v-btn 
-                @click="toggleRepresentation"
-                icon
-                size="small"
-                rounded="sm"
-                variant="tonal"
-                style="margin-left: 0.5em"
-              >
-                <v-icon icon="mdi-arrow-expand" v-if="representation === 'compact'"></v-icon>
-                <v-icon icon="mdi-arrow-collapse" v-else></v-icon>
-              </v-btn>
-            </th>
-            <th width="1em">Время</th>
-          </tr>
-        </thead>
+  <div id="table-wrapper">
+    <table style="margin: 0 auto;">
+      <thead>
+        <tr>
+          <th width="1em">Проект</th>
+          <th width="1em" style="white-space: nowrap;">
+            Задача
+            <v-btn 
+              @click="toggleRepresentation"
+              icon
+              size="small"
+              rounded="sm"
+              variant="tonal"
+              style="margin-left: 0.5em"
+            >
+              <v-icon icon="mdi-arrow-expand" v-if="representation === 'compact'"></v-icon>
+              <v-icon icon="mdi-arrow-collapse" v-else></v-icon>
+            </v-btn>
+          </th>
+          <th width="1em">Время</th>
+        </tr>
+      </thead>
 
-        <tbody>
-          <tr v-for="session in sessions" :key="session.id">
-            <td style="white-space: nowrap;">{{ session.project_name }}</td>
-            <td style="white-space: nowrap;">{{ session.task_name }}</td>
-            <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
-          </tr>
+      <tbody>
+        <tr v-for="session in sessions" :key="session.id">
+          <td style="white-space: nowrap;">{{ session.project_name }}</td>
+          <td style="white-space: nowrap;">{{ session.task_name }}</td>
+          <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
+        </tr>
 
-          <tr style="text-align: right;">
-            <td colspan="2">Итого: </td>
-            <td>{{ formatSeconds(totalSeconds) }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
+        <tr style="text-align: right;">
+          <td colspan="2">Итого: </td>
+          <td>{{ formatSeconds(totalSeconds) }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
   
 </template>
 
 
 <style lang="scss" scoped>
 #sessions-controls {
-  page-break-inside: avoid;
+  // page-break-inside: avoid;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  grid-column-start: 1;
+
+
+  & > * {
+    flex: 0 0 auto;
+  }
 
   header {
     margin-bottom: 2em;
@@ -291,6 +297,10 @@ const projectsFilteredByPeriod = computed(() => {
 #table-wrapper {
   max-width: 100%;
   overflow-x: auto;
+  margin: 1em auto;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+  grid-column-start: 2;
 }
 
 
