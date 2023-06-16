@@ -303,9 +303,11 @@ const projectsFilteredByPeriod = computed(() => {
   grid-column-start: 2;
 }
 
+table {
+  border-collapse: collapse;
+}
 
 th, td {
-  border-collapse: collapse;
   border: 0.5px solid gray;
   padding: 0.5em;
 }

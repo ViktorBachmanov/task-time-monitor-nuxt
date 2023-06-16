@@ -13,17 +13,6 @@ export default defineNuxtConfig({
     },
   },
 
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData:
-            '@use "@/assets/_reset.scss" as *; @use "@/assets/_colors.scss" as *;',
-        },
-      },
-    },
-  },
-
   components: ["~/components"],
 
   modules: ["@invictus.codes/nuxt-vuetify"],
