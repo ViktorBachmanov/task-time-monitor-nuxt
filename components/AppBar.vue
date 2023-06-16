@@ -1,16 +1,48 @@
-<template setup>
-  <div id="app-bar">
-    <nav>
-      <NuxtLink to="/">
-        Home
-      </NuxtLink>
-      <NuxtLink to="/about">
-        About
-      </NuxtLink>
-    </nav>
+<script setup>
+import { useTheme } from 'vuetify'
 
-    <BrightnessIcon />
-  </div>
+const theme = useTheme()
+
+const toggleTheme = () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+
+</script>
+
+
+<template setup>
+  <v-sheet id="app-bar">
+    <v-btn-toggle
+      rounded="0"
+      color="deep-purple-accent-3"
+      group
+    >
+      <v-btn to="/" nuxt>
+        Home
+      </v-btn>
+
+      <v-btn to="/about" nuxt>
+        About
+      </v-btn>
+    </v-btn-toggle>
+
+    <div>
+      <v-btn 
+        href="https://github.com/ViktorBachmanov/task-time-monitor-nuxt" target="_blank"
+        icon
+        style="margin-right: 1em;"
+      >
+        <v-icon icon="mdi-github" size="large"></v-icon>
+      </v-btn>
+
+      <v-btn 
+          @click="toggleTheme"
+          icon
+          rounded="lg"
+          variant="tonal"
+        >
+        <v-icon icon="mdi-theme-light-dark" size="x-large"></v-icon>
+      </v-btn>
+    </div>
+  </v-sheet>
 </template>
 
 
@@ -21,23 +53,5 @@
   justify-content: space-between;
 
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-
-  background-color: $bg-light-1;
-
-  .dark & {
-    background-color: $bg-dark-1;
-  }
-}
-
-nav {
-  display: flex;
-  column-gap: 0.5em;
-}
-
-a {
-  display: inline-block;
-  padding: 0.5em;
-  border-radius: 0.5em;
-  border: 1px solid blue;
 }
 </style>

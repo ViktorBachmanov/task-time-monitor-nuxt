@@ -5,9 +5,6 @@ const { data, refresh } = await useFetch('/api/projects')
 
 const currentProjectId = useState('currentProjectId', () => 1)
 
-// const projects = useState('projects', () => data)
-
-// const playing = useState('playing')
 const playing = useState('currentSessionId')
 
 const currentProjectName = computed(() => {
@@ -25,36 +22,36 @@ async function handleProjectAdded(projectId) {
 
 
 <template>
-  <div>
-    Проекты
+  
+  <div style="grid-column-start: 1; display: flex; flex-direction: column; align-items: center;">
+
+    <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
+      <AddItem
+        header="Добавить проект"
+        url="/api/projects"
+        @added="handleProjectAdded"
+        success-message="Проект добавлен"
+        :disabled="playing === null ? false : true"
+      />
+
+      <v-select
+        v-model="currentProjectId"
+        label="Проект"
+        :items="data"
+        item-title="name"
+        item-value="id"
+        variant="outlined"
+        :disabled="playing === null ? false : true"
+      ></v-select>
+    </div>  
+
+    <Suspense>
+      <TheTasks 
+        :projectId="currentProjectId"
+        :projectName="currentProjectName"
+      />
+    </Suspense>
+    
   </div>
-
-  <select 
-    v-model="currentProjectId"
-    :class="{ disabled: playing }"
-  >
-    <option 
-      v-for="project in data" 
-      :key="project.id"
-      :value="project.id"
-    >
-      {{ project.name }}
-    </option>
-  </select>
-
-  <AddItem 
-    header="Добавить проект"
-    url="/api/projects"
-    @added="handleProjectAdded"
-    success-message="Проект добавлен"
-    :class="{ disabled: playing }"
-  />
-
-  <Suspense>
-    <TheTasks 
-      :projectId="currentProjectId"
-      :projectName="currentProjectName"
-    />
-  </Suspense>
 
 </template>

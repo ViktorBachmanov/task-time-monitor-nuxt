@@ -11,7 +11,11 @@
 
 <style lang="scss" scoped>
 main {
-  padding: 2em;
+  padding: 1em;
+
+  @media (min-width: 420px) {
+    padding: 2em;
+  }
 }
 
 </style>

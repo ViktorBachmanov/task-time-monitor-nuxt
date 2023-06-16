@@ -1,6 +1,4 @@
 <script setup>
-
-// const currentSessionId = ref(null)
 const currentSessionId = useState('currentSessionId', () => null)
 
 const currentTaskId = useState('currentTaskId')
@@ -10,7 +8,6 @@ const period = ref('today')
 const filterProjectId = ref('all')
 
 
-// const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}&project-id=${filterProjectId.value}`)
 const { data, refresh } = await useFetch(() => `/api/sessions/?period=${period.value}`)
 
 const sessionsFilteredByProject = computed(() => {
@@ -48,7 +45,7 @@ const compact = computed(() => {
   return collapsedArray
 })
 
-const representation = ref('common')  // common | compact
+const representation = ref('compact')  // common | compact
 
 const sessions = computed(() => {
   return representation.value === 'common'
@@ -66,7 +63,6 @@ function formatTime(session) {
         ${updatedAt} = 
         ${formatSeconds(session.seconds)}`
     case 'compact':
-      // return new Date((session.seconds - 3 * 60 * 60) * 1000).toLocaleTimeString()
       return formatSeconds(session.seconds)
   }
 }
@@ -126,7 +122,7 @@ async function createSession() {
 
 let intervalId
 
-const timer = ref('')
+const timer = ref('00:00:00')
 
 function startTimer() {
   const startDate = Date.now()
@@ -145,8 +141,6 @@ function startTimer() {
       updateSession()
 
       lastUpdate = Date.now()
-
-      console.log('has been updated at: ', new Date().toLocaleTimeString())
     }
 
     const currentSession = sessionsFilteredByProject.value.find(session => session.id === currentSessionId.value)
@@ -182,19 +176,18 @@ async function closeSession() {
   refresh()
 }
 
-// const dateFrom = computed(() => {
-//   return new Date().toISOString().split('.')[0].replace('T', ' ')
-// })
-
 const projectsFilteredByPeriod = computed(() => {
-  const filteredProjects = {}
+  const filteredProjects = [{ id: 'all', name: 'Все' }]
 
   data.value.rows.forEach(session => {
-    if(session.project_id in filteredProjects) {
+    if(filteredProjects.find(project => project.id === session.project_id)) {
       return
     }
     else {
-      filteredProjects[session.project_id] = session.project_name
+      filteredProjects.push({ 
+        id: session.project_id,
+        name: session.project_name
+      })
     }
   })
 
@@ -205,70 +198,112 @@ const projectsFilteredByPeriod = computed(() => {
 
 
 <template>
-  <ThePlayer
-    :timer="timer"
-    @play="createSession"
-    @stop="closeSession"
-  />
+  <div id="sessions-controls">
+    <ThePlayer
+      :timer="timer"
+      :currentSessionId="currentSessionId"
+      @play="createSession"
+      @stop="closeSession"
+    />
 
-  <div>
-    Сеансы
+    <header>
+      Сеансы
+    </header>
+
+    <v-select
+      v-model="period"
+      label="Период"
+      :items="[{value: 'today', title: 'Сегодня'}, {value: 'april', title: 'Апрель'}, {value: 'may', title: 'Май'}]"
+      item-title="title"
+      item-value="value"
+      variant="outlined"
+      style="width: 8em;"
+    ></v-select>
+
+    <v-select
+      v-model="filterProjectId"
+      label="Фильтр проектов"
+      :items="projectsFilteredByPeriod"
+      item-title="name"
+      item-value="id"
+      variant="outlined"
+      style="width: 25em; max-width: 100%;"
+    ></v-select>
   </div>
 
-  <button @click="toggleRepresentation">Rep</button>
+ 
+  <div id="table-wrapper">
+    <table style="margin: 0 auto;">
+      <thead>
+        <tr>
+          <th width="1em">Проект</th>
+          <th width="1em" style="white-space: nowrap;">
+            Задача
+            <v-btn 
+              @click="toggleRepresentation"
+              icon
+              size="small"
+              rounded="sm"
+              variant="tonal"
+              style="margin-left: 0.5em"
+            >
+              <v-icon icon="mdi-arrow-expand" v-if="representation === 'compact'"></v-icon>
+              <v-icon icon="mdi-arrow-collapse" v-else></v-icon>
+            </v-btn>
+          </th>
+          <th width="1em">Время</th>
+        </tr>
+      </thead>
 
-  <br/>
+      <tbody>
+        <tr v-for="session in sessions" :key="session.id">
+          <td style="white-space: nowrap;">{{ session.project_name }}</td>
+          <td style="white-space: nowrap;">{{ session.task_name }}</td>
+          <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
+        </tr>
 
-  <select 
-    v-model="period"
-    style="margin-top: 1em;"
-  >
-    <option value="today">Сегодня</option>
-    <option value="april">Апрель</option>
-    <option value="may">Май</option>
-    <option value="april-may">Апрель-Май</option>
-  </select>
-
-  <FilterOfProjects 
-    v-model="filterProjectId" 
-    :projects="projectsFilteredByPeriod"
-  />
-
-  <!-- {{ dateFrom }} -->
-  <!-- {{ new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] }} -->
-
-  <table width="1em">
-    <thead>
-      <tr>
-        <th width="1em">Проект</th>
-        <th width="1em">Задача</th>
-        <th width="1em">Время</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr v-for="session in sessions" :key="session.id">
-        <td style="white-space: nowrap;">{{ session.project_name }}</td>
-        <td style="white-space: nowrap;">{{ session.task_name }}</td>
-        <td style="white-space: nowrap;">{{ formatTime(session) }}</td>
-      </tr>
-    </tbody>
-  </table>
+        <tr style="text-align: right;">
+          <td colspan="2">Итого: </td>
+          <td>{{ formatSeconds(totalSeconds) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   
-  <div style="margin: 0.5em;">
-    <!-- Итого: {{ new Date(totalSeconds * 1000 - 3 * 60 * 60 * 1000).toLocaleTimeString() }} -->
-    <!-- Итого: {{ (totalSeconds / 60 / 60).toFixed(2) }} часов -->
-    Итого: {{ formatSeconds(totalSeconds) }}
-  </div>
-
 </template>
 
 
 <style lang="scss" scoped>
-table {
-  margin: 1em;
+#sessions-controls {
+  // page-break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  grid-column-start: 1;
+
+
+  & > * {
+    flex: 0 0 auto;
+  }
+
+  header {
+    margin-bottom: 2em;
+    font-size: 120%;
+  }
 }
+
+#table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1em auto;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+  grid-column-start: 2;
+}
+
+
 th, td {
   border-collapse: collapse;
   border: 0.5px solid gray;

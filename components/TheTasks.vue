@@ -4,22 +4,17 @@ const props = defineProps({
   projectName: String,
 })
 
-// const fetchResult = computed(async () => {
-//   return await useFetch(`/api/tasks?project-id=${props.projectId}`)
-// })
 
 const { data, refresh } = await useFetch(() => `/api/tasks?project-id=${props.projectId}`)
 
 watch(() => props.projectId, async () => {
-  // console.log('project id changed')
   await refresh();
 
   currentTaskId.value = data.value.rows[0]?.id;
 })
 
-const currentTaskId = useState('currentTaskId', () => 1)
+const currentTaskId = useTaskId()
 
-// const playing = useState('playing')
 const playing = useState('currentSessionId')
 
 
@@ -34,32 +29,25 @@ async function handleTaskAdded(taskId) {
 
 
 <template>
-  <div>
-    Задачи
+  <div style="display: flex; column-gap: 0.5em; width: 25em; max-width: 100%;">
+    <AddItem
+      :header="`Добавить задачу в проект ${projectName}`"
+      url="/api/tasks"
+      :payload="{ projectId }"
+      @added="handleTaskAdded"
+      success-message="Задача добавлена"
+      :disabled="playing === null ? false : true"
+    />
+
+    <v-select
+      v-model="currentTaskId"
+      label="Задача"
+      :items="data.rows"
+      item-title="name"
+      item-value="id"
+      variant="outlined"
+      :disabled="playing === null ? false : true"
+    ></v-select> 
   </div>
-
-  <!-- <input v-model="newTaskName"> -->
-
-  <select 
-    v-model="currentTaskId"
-    :class="{ disabled: playing }"
-  >
-    <option 
-      v-for="task in data.rows" 
-      :key="task.id"
-      :value="task.id"
-    >
-      {{ task.name }}
-    </option>
-  </select>
-
-  <AddItem 
-    :header="`Добавить задачу в проект ${projectName}`"
-    url="/api/tasks"
-    :payload="{ projectId }"
-    @added="handleTaskAdded"
-    success-message="Задача добавлена"
-    :class="{ disabled: playing }"
-  />
- 
+  
 </template>

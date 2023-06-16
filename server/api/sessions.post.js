@@ -13,7 +13,6 @@ export default defineEventHandler(async (event) => {
   );
 
   return {
-    // result,
     session: rows[0],
   };
 });
