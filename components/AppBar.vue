@@ -24,21 +24,24 @@ const toggleTheme = () => theme.global.name.value = theme.global.current.value.d
       </v-btn>
     </v-btn-toggle>
 
-    <v-btn 
-      href="https://github.com/ViktorBachmanov/task-time-monitor-nuxt" target="_blank"
-      icon
-    >
-      <v-icon icon="mdi-github" size="large"></v-icon>
-    </v-btn>
-
-    <v-btn 
-        @click="toggleTheme"
+    <div>
+      <v-btn 
+        href="https://github.com/ViktorBachmanov/task-time-monitor-nuxt" target="_blank"
         icon
-        rounded="lg"
-        variant="tonal"
+        style="margin-right: 1em;"
       >
-      <v-icon icon="mdi-theme-light-dark" size="x-large"></v-icon>
-    </v-btn>
+        <v-icon icon="mdi-github" size="large"></v-icon>
+      </v-btn>
+
+      <v-btn 
+          @click="toggleTheme"
+          icon
+          rounded="lg"
+          variant="tonal"
+        >
+        <v-icon icon="mdi-theme-light-dark" size="x-large"></v-icon>
+      </v-btn>
+    </div>
   </v-sheet>
 </template>
 
