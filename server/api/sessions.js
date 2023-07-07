@@ -22,6 +22,14 @@ export default defineEventHandler(async (event) => {
       dateFrom = new Date("April 1, 2023").toISOString().split("T")[0];
       dateTo = new Date("June 1, 2023").toISOString().split("T")[0];
       break;
+    case "june":
+      dateFrom = new Date("June 1, 2023").toISOString().split("T")[0];
+      dateTo = new Date("July 1, 2023").toISOString().split("T")[0];
+      break;
+    case "july":
+      dateFrom = new Date("July 1, 2023").toISOString().split("T")[0];
+      dateTo = new Date("August 1, 2023").toISOString().split("T")[0];
+      break;
   }
 
   const [rows] = await promisePool.execute(

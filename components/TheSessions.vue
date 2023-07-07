@@ -213,7 +213,7 @@ const projectsFilteredByPeriod = computed(() => {
     <v-select
       v-model="period"
       label="Период"
-      :items="[{value: 'today', title: 'Сегодня'}, {value: 'april', title: 'Апрель'}, {value: 'may', title: 'Май'}]"
+      :items="[{value: 'today', title: 'Сегодня'}, {value: 'april', title: 'Апрель'}, {value: 'may', title: 'Май'}, {value: 'june', title: 'Июнь'}, {value: 'july', title: 'Июль'}]"
       item-title="title"
       item-value="value"
       variant="outlined"
