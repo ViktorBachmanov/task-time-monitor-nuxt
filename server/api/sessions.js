@@ -11,24 +11,32 @@ export default defineEventHandler(async (event) => {
         .split("T")[0];
       break;
     case "april":
-      dateFrom = new Date("April 1, 2023").toISOString().split("T")[0];
-      dateTo = new Date("May 1, 2023").toISOString().split("T")[0];
+      dateFrom = createMonthDate("April");
+      dateTo = createMonthDate("May");
       break;
     case "may":
-      dateFrom = new Date("May 1, 2023").toISOString().split("T")[0];
-      dateTo = new Date("June 1, 2023").toISOString().split("T")[0];
-      break;
-    case "april-may":
-      dateFrom = new Date("April 1, 2023").toISOString().split("T")[0];
-      dateTo = new Date("June 1, 2023").toISOString().split("T")[0];
+      dateFrom = createMonthDate("May");
+      dateTo = createMonthDate("June");
       break;
     case "june":
-      dateFrom = new Date("June 1, 2023").toISOString().split("T")[0];
-      dateTo = new Date("July 1, 2023").toISOString().split("T")[0];
+      dateFrom = createMonthDate("June");
+      dateTo = createMonthDate("July");
       break;
     case "july":
-      dateFrom = new Date("July 1, 2023").toISOString().split("T")[0];
-      dateTo = new Date("August 1, 2023").toISOString().split("T")[0];
+      dateFrom = createMonthDate("July");
+      dateTo = createMonthDate("August");
+      break;
+    case "august":
+      dateFrom = createMonthDate("August");
+      dateTo = createMonthDate("September");
+      break;
+    case "september":
+      dateFrom = createMonthDate("September");
+      dateTo = createMonthDate("October");
+      break;
+    case "october":
+      dateFrom = createMonthDate("October");
+      dateTo = createMonthDate("November");
       break;
   }
 
@@ -45,3 +53,9 @@ export default defineEventHandler(async (event) => {
     rows,
   };
 });
+
+//=================== helper functions ==================
+
+function createMonthDate(month) {
+  return new Date(`${month} 1, 2023`).toISOString().split("T")[0];
+}

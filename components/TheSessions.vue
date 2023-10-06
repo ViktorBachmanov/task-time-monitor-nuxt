@@ -194,6 +194,17 @@ const projectsFilteredByPeriod = computed(() => {
   return filteredProjects
 })
 
+const periodItems = [
+  {value: 'today', title: 'Сегодня'},
+  {value: 'april', title: 'Апрель'},
+  {value: 'may', title: 'Май'}, 
+  {value: 'june', title: 'Июнь'}, 
+  {value: 'july', title: 'Июль'},
+  {value: 'august', title: 'Август'},
+  {value: 'september', title: 'Сентябрь'},
+  {value: 'october', title: 'Октябрь'},
+]
+
 </script>
 
 
@@ -213,7 +224,7 @@ const projectsFilteredByPeriod = computed(() => {
     <v-select
       v-model="period"
       label="Период"
-      :items="[{value: 'today', title: 'Сегодня'}, {value: 'april', title: 'Апрель'}, {value: 'may', title: 'Май'}, {value: 'june', title: 'Июнь'}, {value: 'july', title: 'Июль'}]"
+      :items="periodItems"
       item-title="title"
       item-value="value"
       variant="outlined"
